@@ -1,0 +1,246 @@
+-- By Theamazingnater
+-- hi
+plr = game.Players.LocalPlayer
+char = plr.Character
+
+
+-- Defining RenderStepped?
+renders = game:GetService("RunService").RenderStepped
+-- Intro
+char.Torso.roblox.Texture = "rbxassetid://305296807"
+local rhandclone = game.Players.LocalPlayer.Character.Torso["Right Shoulder"]:Clone()
+        local rhandweld = Instance.new("Weld", game.Players.LocalPlayer.Character.Torso)
+        rhandweld.Part0 = game.Players.LocalPlayer.Character.Torso
+        rhandweld.Part1 = game.Players.LocalPlayer.Character["Right Arm"]
+        rhandweld.C0 = CFrame.new(1.5, 0, 0, 1, -1.6395192e-43, 0, -1.6395192e-43, 1, 0, 0, 0, 1)
+        local lhandclone = game.Players.LocalPlayer.Character.Torso["Left Shoulder"]:Clone()
+        local lhandweld = Instance.new("Weld", game.Players.LocalPlayer.Character.Torso)
+        lhandweld.Part0 = game.Players.LocalPlayer.Character.Torso
+        lhandweld.Part1 = game.Players.LocalPlayer.Character["Left Arm"]
+        lhandweld.C0 = CFrame.new(-1.5, 0, 0, 1, -1.6395192e-43, 0, -1.6395192e-43, 1, 0, 0, 0, 1)
+        local llegclone = game.Players.LocalPlayer.Character.Torso["Left Hip"]:Clone()
+        game.Players.LocalPlayer.Character.Torso["Left Hip"]:Remove()
+        local llegweld = Instance.new("Weld", game.Players.LocalPlayer.Character.Torso)
+        llegweld.Part0 = game.Players.LocalPlayer.Character.Torso
+        llegweld.Part1 = game.Players.LocalPlayer.Character["Left Leg"]
+        llegweld.C0 = CFrame.new(-0.5, -1, 0, -0, -0, -1, 0, 1, 0, 1, 0, 0) * CFrame.new(0,-1,0)
+        local rlegclone = game.Players.LocalPlayer.Character.Torso["Right Hip"]:Clone()
+        game.Players.LocalPlayer.Character.Torso["Right Hip"]:Remove()
+        local rlegweld = Instance.new("Weld", game.Players.LocalPlayer.Character.Torso)
+        rlegweld.Part0 = game.Players.LocalPlayer.Character.Torso
+        rlegweld.Part1 = game.Players.LocalPlayer.Character["Right Leg"]
+        rlegweld.C0 = CFrame.new(0.5, -1, 0, 0, 0, 1, 0, 1, 0, -1, -0, -0) * CFrame.new(0,-1,0)
+        local rootjointclone = game.Players.LocalPlayer.Character.HumanoidRootPart.RootJoint:Clone()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.RootJoint:Remove()
+        local humanoidrootpart = Instance.new("Weld", game.Players.LocalPlayer.Character.Torso)
+        humanoidrootpart.Part0 = game.Players.LocalPlayer.Character.HumanoidRootPart
+        humanoidrootpart.Part1 = game.Players.LocalPlayer.Character.Torso
+        local heed = game.Players.LocalPlayer.Character.Torso["Neck"]:Clone()
+        local headweld = Instance.new("Weld", game.Players.LocalPlayer.Character.Torso)
+        headweld.Part0 = game.Players.LocalPlayer.Character.Torso
+        headweld.Part1 = game.Players.LocalPlayer.Character.Head
+        headweld.C0 = headweld.C0 * CFrame.new(0,1.5,0)
+local gunshot = Instance.new("Sound",char.Torso)
+gunshot.Name = "BANG"
+gunshot.SoundId = "rbxassetid://213603013"
+gunshot.Volume = 2
+gunshot:Play()
+char.Humanoid.WalkSpeed = 0
+char.Humanoid.JumpPower = 0
+for i = 0,1 , 0.03 do
+	rlegweld.C0 = rlegweld.C0:lerp(CFrame.new(0.975958347, -2.06729031, 0, 0.905177712, -0.425033659, 8.83524214e-27, 0.425034732, 0.905179977, 4.223007e-27, -1.05518035e-26, 3.02922588e-28, 1.0000025),i)
+	llegweld.C0 = llegweld.C0:lerp(CFrame.new(-0.901434898, -1.97289896, 0, 0.896831989, 0.442371875, -3.88750654e-27, -0.442372978, 0.896834254, 5.09510506e-27, 4.69530011e-27, -3.35739201e-27, 1.0000025),i)
+	rhandweld.C0 = rhandweld.C0:lerp(CFrame.new(1.98829222, 0.555973053, 0, -0.0983736441, -0.995149612, 6.86624532e-27, 0.995152056, -0.0983738229, 1.33999472e-26, -1.25618211e-26, 9.13816473e-27, 1.0000025),i)
+	lhandweld.C0 = lhandweld.C0:lerp(CFrame.new(-1.80910063, 0.148392916, 0, 0.586558223, 0.80990839, -5.84135723e-26, -0.809910417, 0.586559713, -6.21380681e-26, -1.6509281e-26, 8.28998148e-26, 1.0000025),i)
+    humanoidrootpart.C0 = humanoidrootpart.C0:lerp(CFrame.new(0, -2.50004101, 2.00000429, 1, -4.90253133e-27, 8.98669496e-27, 8.98670343e-27, 1.77323375e-06, -1, 4.90251553e-27, 1, 1.77323375e-06),i)
+	renders:wait()
+end
+wait(3)
+local scream = Instance.new("Sound",char.Torso)
+scream.SoundId = "rbxassetid://138167455"
+scream.Volume = 4
+scream:Play()
+char.Head.face.Texture = "http://www.roblox.com/asset/?id=1364114735"
+for i = 0,1 , 0.03 do
+	rhandweld.C0 = rhandweld.C0:lerp(CFrame.new(1.52452374, 0.510128379, -0.901310444, -0.0983733907, 0.0243432298, 0.994851828, 0.995149672, 0.00240636896, 0.0983439684, 2.91038305e-08, 0.999700963, -0.0244618785),i)
+	renders:wait()
+end
+wait(5)
+char.Head.face.Texture = "http://www.roblox.com/asset/?id=295197013"
+for i = 0,1 , 0.03 do
+	rhandweld.C0 = rhandweld.C0:lerp(CFrame.new(1.98829222, 0.555973053, 0, -0.0983736441, -0.995149612, 6.86624532e-27, 0.995152056, -0.0983738229, 1.33999472e-26, -1.25618211e-26, 9.13816473e-27, 1.0000025),i)
+	renders:wait()
+end
+local Part0 = Instance.new("Part")
+Part0.Name = "bl00d"
+Part0.CanCollide = false
+Part0.Anchored = true
+Part0.Parent = char
+Part0.BrickColor = BrickColor.new("Crimson")
+Part0.Rotation = Vector3.new(0, 0, 90)
+Part0.Shape = Enum.PartType.Cylinder
+Part0.Size = Vector3.new(0.310000002, 1.77000022, 2)
+Part0.CFrame = CFrame.new(10.5427914, 1.28072846, 11.4908791, 4.47034836e-07, -1.00000215, 0, 1.00000215, 4.47034836e-07, 0, 0, 0, 1)
+Part0.Color = Color3.new(0.458824, 0, 0)
+Part0.Position = Vector3.new(10.5427914, 1.28072846, 11.4908791)
+Part0.Orientation = Vector3.new(0, 0, 90)
+Part0.Color = Color3.new(0.458824, 0, 0)
+for i = 1,400 do
+ game.Players.LocalPlayer.Character.Head.CanCollide = false
+ Part0.Size = Part0.Size + Vector3.new(0,0.01,0.01)
+ Part0.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame * CFrame.new(0,0,0.4)
+ Part0.CFrame = Part0.CFrame * CFrame.fromEulerAnglesXYZ(0,math.pi/2,0)
+ game:GetService("RunService").Stepped:wait()
+end
+wait(4)
+for i = 0,1 , 0.03 do
+	lhandweld.C0 = lhandweld.C0:lerp(CFrame.new(-1.5, 0, 0, 1, -1.6395192e-43, 0, -1.6395192e-43, 1, 0, 0, 0, 1),i)
+	llegweld.C0 = llegweld.C0:lerp(CFrame.new(-0.5, -1.9999913, 0, 1, 0, 0, 0, 0.999995589, 0, 0, 0, 1),i)
+	rhandweld.C0 = rhandweld.C0:lerp(CFrame.new(1.5, 0, 0, 1, -1.6395192e-43, 0, -1.6395192e-43, 1, 0, 0, 0, 1),i)
+	rlegweld.C0 = rlegweld.C0:lerp(CFrame.new(0.5, -1.9999913, 0, 1, 0, 0, 0, 0.999995589, 0, 0, 0, 1),i)
+	headweld.C0 = headweld.C0:lerp(CFrame.new(0, 1.4999938, 0, 1, 0, 0, 0, 0.999995708, 0, 0, 0, 1),i)
+	humanoidrootpart.C0 = humanoidrootpart.C0:lerp(CFrame.new(0, 0, 0, 1, 0, 0, 0, 0.999995708, 0, 0, 0, 1),i)
+	renders:wait()
+end
+lhandweld:Destroy()
+llegweld:Destroy()
+rhandweld:Destroy()
+rlegweld:Destroy()
+headweld:Destroy()
+humanoidrootpart:Destroy()
+lhandclone.Parent = char.Torso
+llegclone.Parent = char.Torso
+rhandclone.Parent = char.Torso
+rlegclone.Parent = char.Torso
+heed.Parent = char.Torso
+rootjointclone.Parent = char.HumanoidRootPart
+char.Humanoid.WalkSpeed = 16
+char.Humanoid.JumpPower = 50
+-- the thing that follows you
+local part = Instance.new("Part",char)
+part.Transparency = 1
+part.Size = Vector3.new(5.92, 0.05, 5.95)
+part.CanCollide = false
+local surfacegui = Instance.new("SurfaceGui",part)
+surfacegui.Adornee = part
+surfacegui.Face = "Top"
+surfacegui.AlwaysOnTop = false
+local image = Instance.new("ImageLabel",surfacegui)
+image.Size = UDim2.new(1.066, 0, 0.998, 0)
+image.Image = "rbxassetid://153485522"
+image.BackgroundTransparency = 1
+local weld = Instance.new("Weld",part)
+weld.Part0 = part
+weld.Part1 = char.HumanoidRootPart
+for i = 0,1 , 0.05 do
+    weld.C0 = weld.C0:lerp(CFrame.new(-0.232723236, 2.4942894, 0.332229614, 1, 0, 0, 0, 0.999996066, 0, 0, 0, 1),i)
+    game:GetService("RunService").RenderStepped:wait()
+end
+-- funcs
+function onTouched(brick)
+    local humn = brick.Parent:FindFirstChildOfClass("Humanoid")
+    if humn then
+        for i,v in pairs(humn.Parent:GetChildren()) do
+            if v.ClassName == "Part" then
+                v.Transparency = 0.5
+                v.Color = Color3.new(0,0,0)
+                v.CanCollide = false
+                v.Parent.Humanoid.Health = 0
+                local bodyvel = Instance.new("BodyVelocity",v)
+                local leftarm = Instance.new("CharacterMesh",v.Parent)
+                leftarm.BodyPart = "LeftArm"
+                leftarm.MeshId = "1112256772"
+                local leftleg = Instance.new("CharacterMesh",v.Parent)
+                leftleg.BodyPart = "LeftLeg"
+                leftleg.MeshId = "1112275294"
+                local rightarm = Instance.new("CharacterMesh",v.Parent)
+                rightarm.BodyPart = "RightArm"
+                rightarm.MeshId = "1112244824"
+                local rightleg = Instance.new("CharacterMesh",v.Parent)
+                rightleg.BodyPart = "RightLeg"
+                rightleg.MeshId = "1112267576"
+                local torso = Instance.new("CharacterMesh",v.Parent)
+                torso.BodyPart = "Torso"
+                torso.MeshId = "1112228624"
+            end
+        end
+    end
+end
+char.Torso.Touched:connect(onTouched)
+-- Transparency
+char["Left Arm"].Transparency = 0.5
+char["Left Leg"].Transparency = 0.5
+char["Right Arm"].Transparency = 0.5
+char["Right Leg"].Transparency = 0.5
+char["Head"].Transparency = 0.5
+char.Torso.Transparency = 0.5
+-- Color
+local bdycolors = char["Body Colors"]
+bdycolors.HeadColor = BrickColor.new("Really black")
+bdycolors.LeftArmColor = BrickColor.new("Really black")
+bdycolors.RightArmColor = BrickColor.new("Really black")
+bdycolors.LeftLegColor = BrickColor.new("Really black")
+bdycolors.RightLegColor = BrickColor.new("Really black")
+bdycolors.TorsoColor = BrickColor.new("Really black")
+-- Music
+local music = Instance.new("Sound",char)
+music.SoundId = "rbxassetid://182562357"
+music.Volume = 4
+music:Play()
+music.Looped = true
+-- Name
+local nametag = Instance.new("BillboardGui",char.Head)
+nametag.StudsOffset = Vector3.new(0,2,0)
+nametag.Adornee = char.Head
+nametag.Size = UDim2.new(0,200,0,50)
+
+local text = Instance.new("TextLabel",nametag)
+text.Size = UDim2.new(0,200,0,50)
+text.BackgroundTransparency = 1
+text.Text = "The Ghost"
+text.TextColor3 = Color3.new(180/255,0,0)
+text.TextStrokeColor3 = Color3.new(0,0,0)
+text.Font = Enum.Font.Fantasy
+text.TextScaled = true
+text.TextStrokeTransparency = 0
+coroutine.wrap(function()
+	while wait() do
+		wait(3)
+		text.Text = "GIVE UP"
+		wait()
+		text.Text = "The Ghost";
+		wait(2)
+		local str = ""
+		for i = 1, math.random(3,25) do
+			str = str..string.char(math.random(65,122))
+		end
+		text.Text = str
+		wait()
+		str = ""
+		for i = 1, math.random(12,25) do
+			str = str..string.char(math.random(48,122))
+		end
+		wait()
+		text.Text = str
+		wait()
+		text.Text = "The Ghost";
+		wait(1)
+		text.Text = "BE GONE THOT"
+		wait()
+		text.Text = "Burn in hell."
+		wait()
+		text.Text = "The Ghost";
+		wait(2)
+		text.Text = "You made me do this.";
+		wait()
+		text.Text = "edgy";
+		wait()
+		for i = 1, math.random(12,25) do
+			str = str..string.char(math.random(48,57))
+		end
+		text.Text = str
+		wait()
+		text.Text = "The Ghost";
+		wait(2)
+	end
+end)()
