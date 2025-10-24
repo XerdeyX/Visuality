@@ -1,0 +1,999 @@
+--fireman23332333
+
+local plr=game.Players.LocalPlayer;ch=plr.Character;
+local tor=ch.Torso;local head=ch.Head;local ra=ch['Right Arm'];local la=ch['Left Arm'];local rl=ch['Right Leg'];local ll=ch['Left Leg'];
+local rj=ch.HumanoidRootPart.RootJoint;local neck=tor.Neck;
+local rm=Instance.new("Weld",tor);rm.C1=CFrame.new(0,0.5,0);rm.C0=CFrame.new(1.5,0.5,0);rm.Part0=tor;rm.Part1=ra;
+local lm=Instance.new("Weld",tor);lm.C1=CFrame.new(0,0.5,0);lm.C0=CFrame.new(-1.5,0.5,0);lm.Part0=tor;lm.Part1=la;
+local rlm=Instance.new("Weld",tor);rlm.C1=CFrame.new(0,1,0);rlm.C0=CFrame.new(0.5,-1,0);rlm.Part0=tor;rlm.Part1=rl;
+local llm=Instance.new("Weld",tor);llm.C1=CFrame.new(0,1,0);llm.C0=CFrame.new(-0.5,-1,0);llm.Part0=tor;llm.Part1=ll;
+local hum=ch.Humanoid
+for i,v in pairs(head:GetChildren()) do if v.ClassName=="Sound" then v:Destroy() end end
+rj.C0=CFrame.new()
+rj.C1=CFrame.new()
+tor['Right Shoulder']:Destroy();tor['Left Shoulder']:Destroy();tor['Right Hip']:Destroy();tor['Left Hip']:Destroy();
+neck.C0=CFrame.new(0,1,0);neck.C1=CFrame.new(0,-0.5,0);
+rmC0=rm.C0;rmC1=rm.C1;lmC0=lm.C0;lmC1=lm.C1;nC0=neck.C0;nC1=neck.C1;rjC0=rj.C0;rjC1=rj.C1;rlmC0=rlm.C0;rlmC1=rlm.C1;llmC0=llm.C0;llmC1=llm.C1;
+local defWS=9.5
+local defJP=50
+hum.WalkSpeed=defWS
+ch:WaitForChild("Animate"):Destroy()
+hum:WaitForChild("Animator"):Destroy()
+local mouse=plr:GetMouse();local cam=workspace.CurrentCamera;
+
+for i,v in pairs(ch:GetChildren()) do 
+	if v:IsA("Part") then
+		v.CanCollide=false
+	end
+end
+
+local bodyColor=BrickColor.new("Really black")
+
+local bc=ch:WaitForChild("Body Colors")
+bc.HeadColor=bodyColor;bc.LeftArmColor=bodyColor;bc.LeftLegColor=bodyColor;bc.RightArmColor=bodyColor;bc.RightLegColor=bodyColor;bc.TorsoColor=bodyColor;
+head:WaitForChild("face"):Destroy()
+
+for i,v in pairs(head:GetChildren()) do if v.ClassName=="Sound" then v:Destroy() end end
+
+function swait(num)
+	if num==0 or num==nil then
+		game:service'RunService'.RenderStepped:wait()
+	else
+		for i=0,num do
+			game:service'RunService'.RenderStepped:wait()
+		end
+	end
+end
+
+function doBrick(parent,pos,cf,size,colour,material,transparency,a,cc,bs,bts,fs,ls,rs,ts)
+	local p=Instance.new('Part',parent);p.BrickColor=colour;p.Material=material;p.Transparency=transparency;p.Anchored=a;p.CanCollide=cc;p.FormFactor="Custom";p.Size=size;p.BackSurface=bs;p.BottomSurface=bts;p.FrontSurface=fs;p.LeftSurface=ls;p.RightSurface=rs;p.TopSurface=ts;p.Position=pos;p.CFrame=p.CFrame*cf;
+	return p
+end
+
+function doMesh(parent,meshType,meshId,scale)
+	local m=Instance.new('SpecialMesh',parent);m.MeshType=meshType;m.MeshId=meshId;m.Scale=scale
+	return m
+end
+
+local hm=Instance.new("Model",ch);hm.Name="HelmetModel"
+
+local hat=doBrick(hm,Vector3.new(0,0,0),head.CFrame*CFrame.new(0,0.1,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),Vector3.new(1,1,1),BrickColor.new("Cool yellow"),"SmoothPlastic",0,true,false,10,10,10,10,10,10)
+local hoodMesh=doMesh(hat,"FileMesh","http://www.roblox.com/asset/?id=6552202",Vector3.new(3,3,3))
+
+local grabPart=Instance.new("Part",ch);grabPart.Anchored=false;grabPart.CanCollide=false;grabPart.Size=Vector3.new(1,1,1);grabPart.Transparency=1;grabPart.Name="GrabPart";
+--local gpw=Instance.new("Weld",ch);gpw.Part0=grabPart;gpw.Part1=ra;gpw.C1=CFrame.new(0,-1.25,0.6)
+
+local mainGui=nil
+
+function displayGrabOptions()
+	local mainGui=Instance.new("ScreenGui",plr.PlayerGui)
+	mainGui.Name="OptionsGui"
+	local grabOption1=Instance.new("TextLabel",mainGui)
+	grabOption1.BackgroundTransparency=0.25
+	grabOption1.BackgroundColor3=Color3.new(2.55,1.50,0.50)
+	grabOption1.BorderSizePixel=0
+	grabOption1.Size=UDim2.new(0,125,0,40)
+	grabOption1.Position=UDim2.new(0,-125+1,0.5,40)
+	grabOption1.Text="F - Release"
+	grabOption1.Font=Enum.Font.SourceSansLight
+	grabOption1.FontSize=Enum.FontSize.Size24
+	grabOption1.TextColor3=Color3.new(1,1,1)
+	grabOption1.TextStrokeTransparency=0
+
+	grabOption1:TweenPosition(UDim2.new(0,0,0.5,40),"Out","Bounce",0.5,false,nil)
+
+	local grabOption2=Instance.new("TextLabel",mainGui)
+	grabOption2.BackgroundTransparency=0.25
+	grabOption2.BackgroundColor3=Color3.new(2.55,1.50,0.50)
+	grabOption2.BorderSizePixel=0
+	grabOption2.Size=UDim2.new(0,125,0,40)
+	grabOption2.Position=UDim2.new(0,-125+1,0.5,(40*2)+1)
+	grabOption2.Text="E - Soul Punch"
+	grabOption2.Font=Enum.Font.SourceSansLight
+	grabOption2.FontSize=Enum.FontSize.Size24
+	grabOption2.TextColor3=Color3.new(1,1,1)
+	grabOption2.TextStrokeTransparency=0
+
+	grabOption2:TweenPosition(UDim2.new(0,0,0.5,(40*2)+1),"Out","Bounce",0.6,false,nil)
+end
+
+function hideGrabOptions()
+	if plr.PlayerGui:findFirstChild("OptionsGui",true)~=nil then
+		plr.PlayerGui.OptionsGui:Destroy()
+	end
+end
+
+for i,v in pairs(hm:GetChildren()) do
+	if v:IsA("BasePart") then
+		local w=Instance.new("Weld",hm)
+		w.Part0=head
+		w.Part1=v
+		w.C0=head.CFrame:inverse()
+		w.C1=v.CFrame:inverse()
+		v.Anchored=false
+	end
+end
+
+function poseJointC0(joint,JB,cf,speed)
+	joint.C0=joint.C0:lerp(JB*cf,speed)
+end
+function poseJointC1(joint,JB,cf,speed)
+	joint.C1=joint.C1:lerp(JB*cf,speed)
+end
+
+local RLattacking=false
+local grabbing=false
+local grabbingMode=false
+local grabbedCharacter=nil
+local grabWeld=nil
+
+local dmgDebounce=false
+
+local speed=1
+
+--[[temp
+
+poseJointC0(rm,rmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),i*speed)
+poseJointC0(lm,lmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),i*speed)
+poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),i*speed)
+poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),i*speed)
+poseJointC0(neck,nC0,CFrame.Angles(math.rad(13),math.rad(0),math.rad(0)),i*speed)
+poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),i*speed)
+					
+poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+
+swait()
+]]
+
+function sound(id,vol,pitch,parent)
+	local s=Instance.new("Sound",parent)
+	s.SoundId="http://www.roblox.com/asset/?id="..id..""
+	s.Volume=vol
+	s.Pitch=pitch
+	game.Debris:AddItem(s,5)
+	s:play()
+end
+
+local EP=Instance.new("Model",ch);EP.Name="ExtraParts";
+
+function magicBrick(pos,cf,size,colour,material,transparency,a,cc,bs,bts,fs,ls,rs,ts,meshType,meshId,scale,scaleAdd,loop,loopTransparency,repeatloop,repeatLoopWait,loopCFrame)
+	local cw1=coroutine.wrap(function()
+		for i=1,repeatloop do
+			local x=doBrick(EP,pos,cf,size,colour,material,transparency,a,cc,bs,bts,fs,ls,rs,ts)
+			local z=doMesh(x,meshType,meshId,scale)
+
+			local cw2=coroutine.wrap(function()
+				for i=1,loop do
+					if loopTransparency then
+						x.Transparency=i/loop
+						z.Scale=z.Scale+scaleAdd
+						x.CFrame=x.CFrame*loopCFrame
+						wait()
+					else
+						z.Scale=z.Scale+scaleAdd
+						x.CFrame=x.CFrame*loopCFrame
+					end
+				end
+				x:Destroy()
+			end)
+			cw2()
+			swait(repeatLoopWait)
+		end
+	end)
+	cw1()
+end
+
+local currentAnim=""
+local speed=0
+local doingMove=false
+local attacking=false
+
+function anim(x)
+	if not doingMove then
+		if x=="jump" then
+			if currentAnim==x then return end
+			currentAnim=x
+			speed=0.45
+			print(x)
+			for i=0,0.8,0.1*speed do
+				if currentAnim~=x then break end
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(-13),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(-13),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(8),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0.05,-0.35,0.35),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			currentAnim=nil
+		end
+		if x=="descend" then
+			if currentAnim==x then return end
+			currentAnim=x
+			speed=0.45
+			print(x)
+			for i=0,0.67,0.1*speed do
+				if currentAnim~=x then break end
+				if grabbingMode then
+					poseJointC0(rm,rmC0,CFrame.Angles(math.rad(110),math.rad(0),math.rad(87)),i*speed)
+				end
+				if not grabbingMode then
+					poseJointC0(rm,rmC0,CFrame.Angles(math.rad(-13),math.rad(0),math.rad(0)),i*speed)
+				end
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(-13),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(-24),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(24),math.rad(0),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			currentAnim=nil
+		end
+		if x=="walk" then
+			if currentAnim==x then return end
+			currentAnim=x
+			speed=0.35
+			print(x)
+			while true do
+				if currentAnim~=x then break end
+				for i=0,0.8,0.1*speed do
+					if currentAnim~=x then break end
+					if grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(135),math.rad(0),math.rad(25)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(-25),math.rad(0),math.rad(-5)),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(110),math.rad(0),math.rad(-25)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(99),math.rad(0),math.rad(25)),i*speed)
+					end
+					poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(0)),i*speed)
+					poseJointC0(llm,llmC0,CFrame.Angles(math.rad(55),math.rad(0),math.rad(0)),i*speed)
+					poseJointC0(neck,nC0,CFrame.Angles(math.rad(5),math.rad(12),math.rad(0)),i*speed)
+					poseJointC0(rj,rjC0,CFrame.Angles(math.rad(-14),math.rad(-12),math.rad(-10)),i*speed)
+
+					if grabbingMode then
+						poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+						poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC1(rm,rmC1,CFrame.new(0,0.45,0),i*speed)
+						poseJointC1(lm,lmC1,CFrame.new(0,0.45,0),i*speed)
+					end
+					poseJointC1(rlm,rlmC1,CFrame.new(0.05,0,0),i*speed)
+					poseJointC1(llm,llmC1,CFrame.new(-0.05,0,0),i*speed)
+					poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+					poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+					swait()
+				end
+				for i=0,0.34,0.1*speed do
+					if currentAnim~=x then break end
+					if grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(135),math.rad(0),math.rad(25)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(-25),math.rad(0),math.rad(-5)),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(110),math.rad(0),math.rad(-25)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(99),math.rad(0),math.rad(25)),i*speed)
+					end
+					poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(-25),math.rad(0),math.rad(0)),i*speed)
+					poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-30),math.rad(0),math.rad(0)),i*speed)
+					poseJointC0(neck,nC0,CFrame.Angles(math.rad(5),math.rad(0),math.rad(0)),i*speed)
+					poseJointC0(rj,rjC0,CFrame.Angles(math.rad(-15),math.rad(0),math.rad(0)),i*speed)
+
+					if grabbingMode then
+						poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+						poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC1(rm,rmC1,CFrame.new(0,0.45,0),i*speed)
+						poseJointC1(lm,lmC1,CFrame.new(0,0.45,0),i*speed)
+					end
+					poseJointC1(rlm,rlmC1,CFrame.new(0.05,-0.75,0.7),i*speed)
+					poseJointC1(llm,llmC1,CFrame.new(-0.05,0,0),i*speed)
+					poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+					poseJointC1(rj,rjC1,CFrame.new(0,0.3,0),i*speed)
+					swait()
+				end
+				for i=0,0.8,0.1*speed do
+					if currentAnim~=x then break end
+					if grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(135),math.rad(0),math.rad(25)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(-25),math.rad(0),math.rad(-5)),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(110),math.rad(0),math.rad(-25)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(99),math.rad(0),math.rad(25)),i*speed)
+					end
+					poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(55),math.rad(0),math.rad(0)),i*speed)
+					poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(0)),i*speed)
+					poseJointC0(neck,nC0,CFrame.Angles(math.rad(5),math.rad(-12),math.rad(0)),i*speed)
+					poseJointC0(rj,rjC0,CFrame.Angles(math.rad(-14),math.rad(12),math.rad(10)),i*speed)
+
+					if grabbingMode then
+						poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+						poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC1(rm,rmC1,CFrame.new(0,0.45,0),i*speed)
+						poseJointC1(lm,lmC1,CFrame.new(0,0.45,0),i*speed)
+					end
+					poseJointC1(rlm,rlmC1,CFrame.new(0.05,0,0),i*speed)
+					poseJointC1(llm,llmC1,CFrame.new(-0.05,0,0),i*speed)
+					poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+					poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+					swait()
+				end
+				for i=0,0.34,0.1*speed do
+					if currentAnim~=x then break end
+					if grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(135),math.rad(0),math.rad(25)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(-25),math.rad(0),math.rad(-5)),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(110),math.rad(0),math.rad(-25)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(99),math.rad(0),math.rad(25)),i*speed)
+					end
+					poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(-30),math.rad(0),math.rad(0)),i*speed)
+					poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-25),math.rad(0),math.rad(0)),i*speed)
+					poseJointC0(neck,nC0,CFrame.Angles(math.rad(5),math.rad(0),math.rad(0)),i*speed)
+					poseJointC0(rj,rjC0,CFrame.Angles(math.rad(-14),math.rad(0),math.rad(0)),i*speed)
+
+					if grabbingMode then
+						poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+						poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC1(rm,rmC1,CFrame.new(0,0.45,0),i*speed)
+						poseJointC1(lm,lmC1,CFrame.new(0,0.45,0),i*speed)
+					end
+					poseJointC1(rlm,rlmC1,CFrame.new(0.05,0,0),i*speed)
+					poseJointC1(llm,llmC1,CFrame.new(-0.05,-0.75,0.7),i*speed)
+					poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+					poseJointC1(rj,rjC1,CFrame.new(0,0.3,0),i*speed)
+					swait()
+				end
+			end
+		end
+		if x=="idle" then
+			if currentAnim==x then return end
+			currentAnim=x
+			speed=0.24
+			print(x)
+			for i=0,0.45,0.1*speed do
+				if currentAnim~=x then break end
+				if grabbingMode then
+					poseJointC0(rm,rmC0,CFrame.Angles(math.rad(145),math.rad(0),math.rad(45)),speed)
+					poseJointC0(lm,lmC0,CFrame.Angles(math.rad(12),math.rad(0),math.rad(-12)),speed)
+				end
+				if not grabbingMode then
+					poseJointC0(rm,rmC0,CFrame.Angles(math.rad(100),math.rad(0),math.rad(45)),speed)
+					poseJointC0(lm,lmC0,CFrame.Angles(math.rad(99),math.rad(0),math.rad(45)),speed)
+				end
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(12),math.rad(0),math.rad(12)),speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-23),math.rad(0),math.rad(-6)),speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(-4),math.rad(-45),math.rad(0)),speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(-12),math.rad(45),math.rad(0)),speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0,0),speed)
+				if grabbingMode then
+					poseJointC1(lm,lmC1,CFrame.new(0,0,0),speed)
+				end
+				if not grabbingMode then
+					poseJointC1(lm,lmC1,CFrame.new(0,0.75,0),speed)
+				end
+				poseJointC1(rlm,rlmC1,CFrame.new(0.05,-0.45,0.45),speed)
+				poseJointC1(llm,llmC1,CFrame.new(-0.05,-0.45,0.35),speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0.45,0),speed)
+				swait()
+			end
+			while true do
+				if currentAnim~=x then break end
+				for i=0,0.75,0.1*speed do
+					if currentAnim~=x then break end
+					if grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(145),math.rad(0),math.rad(45)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(12),math.rad(0),math.rad(-12)),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(112),math.rad(0),math.rad(45)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(110),math.rad(0),math.rad(45)),i*speed)
+					end
+					poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(12),math.rad(0),math.rad(12)),i*speed)
+					poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-24),math.rad(0),math.rad(-6)),i*speed)
+					poseJointC0(neck,nC0,CFrame.Angles(math.rad(-4),math.rad(-45),math.rad(0)),i*speed)
+					poseJointC0(rj,rjC0,CFrame.Angles(math.rad(-12),math.rad(45),math.rad(0)),i*speed)
+
+					poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+					if grabbingMode then
+						poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC1(lm,lmC1,CFrame.new(0,0.75,0),i*speed)
+					end
+					poseJointC1(rlm,rlmC1,CFrame.new(0.05,-0.45,0.45),i*speed)
+					poseJointC1(llm,llmC1,CFrame.new(-0.05,-0.55,0.35),i*speed)
+					poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+					poseJointC1(rj,rjC1,CFrame.new(0,0.55,0),i*speed)
+					swait()
+				end
+				for i=0,0.75,0.1*speed do
+					if currentAnim~=x then break end
+					if grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(145),math.rad(0),math.rad(45)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(12),math.rad(0),math.rad(-12)),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC0(rm,rmC0,CFrame.Angles(math.rad(100),math.rad(0),math.rad(45)),i*speed)
+						poseJointC0(lm,lmC0,CFrame.Angles(math.rad(99),math.rad(0),math.rad(45)),i*speed)
+					end
+					poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(12),math.rad(0),math.rad(12)),i*speed)
+					poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-23),math.rad(0),math.rad(-6)),i*speed)
+					poseJointC0(neck,nC0,CFrame.Angles(math.rad(-4),math.rad(-45),math.rad(0)),i*speed)
+					poseJointC0(rj,rjC0,CFrame.Angles(math.rad(-12),math.rad(45),math.rad(0)),i*speed)
+
+					poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+					if grabbingMode then
+						poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+					end
+					if not grabbingMode then
+						poseJointC1(lm,lmC1,CFrame.new(0,0.75,0),i*speed)
+					end
+					poseJointC1(rlm,rlmC1,CFrame.new(0.05,-0.45,0.45),i*speed)
+					poseJointC1(llm,llmC1,CFrame.new(-0.05,-0.45,0.35),i*speed)
+					poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+					poseJointC1(rj,rjC1,CFrame.new(0,0.45,0),i*speed)
+					swait()
+				end
+			end
+		end
+	end
+	if doingMove then
+		if x=="spar1" then
+			if currentAnim==x then return end
+			currentAnim=x
+			speed=0.75
+			print(x)
+			for i=0,0.5,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(75),math.rad(0),math.rad(-45)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(90),math.rad(0),math.rad(-45)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(45)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-12)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(0),math.rad(-90),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(90),math.rad(12)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,-0.2,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			attacking=true
+			RLattacking=true
+			sound(233856146,1,1,rl)
+			for i=0,1,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(80),math.rad(0),math.rad(-45)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(90),math.rad(0),math.rad(-45)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(106.5)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-45)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(0),math.rad(-90),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(90),math.rad(45)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0.5,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0.2,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			attacking=false
+			RLattacking=false
+			currentAnim=nil
+		end
+		if x=="spar2" then
+			if currentAnim==x then return end
+			currentAnim=x
+			speed=0.75
+			print(x)
+			for i=0,0.5,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(45),math.rad(0),math.rad(-45)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(45),math.rad(0),math.rad(45)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(45)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-10),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(0),math.rad(25),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(5),math.rad(-25),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			attacking=true
+			RLattacking=true
+			sound(233856146,1,0.85,rl)
+			for i=0,1,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(45)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(-45)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(110),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-10),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(-23),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(23),math.rad(0),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			attacking=false
+			RLattacking=false
+			currentAnim=nil
+		end
+		if x=="grab" then
+			if currentAnim==x then return end
+			currentAnim=x
+			speed=0.75
+			print(x)
+			for i=0,0.5,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(45),math.rad(0),math.rad(5)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-5)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(5)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-5)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(0),math.rad(45),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(-45),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			attacking=true
+			grabbing=true
+			sound(233856146,1,0.95,rl)
+			for i=0,1,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(125),math.rad(0),math.rad(-25)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-15)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(5)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-5)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(13),math.rad(-35),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(45),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,1,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			attacking=false
+			grabbing=false
+			currentAnim=nil
+		end
+		if x=="release" then
+			if currentAnim==x then return end
+			currentAnim=x
+			speed=0.75
+			print(x)
+			for i=0,0.5,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(45),math.rad(0),math.rad(5)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-5)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(5)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-5)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(0),math.rad(45),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(-45),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			sound(233856146,1,0.95,rl)
+			grabWeld:Destroy()
+			local bv=Instance.new("BodyVelocity",grabbedCharacter:WaitForChild("Torso"))
+			bv.maxForce=Vector3.new(math.huge,math.huge,math.huge)
+			bv.velocity=head.CFrame.lookVector*50+Vector3.new(0,15,0)
+			game.Debris:AddItem(bv,0.05)
+			grabbedCharacter.Humanoid.WalkSpeed=16
+			grabbedCharacter.Humanoid.JumpPower=50
+			for i=0,1,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(125),math.rad(0),math.rad(-25)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-15)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(5)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-5)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(13),math.rad(-35),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(45),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,1,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			currentAnim=nil
+		end
+		if x=="grabPose" then
+			if currentAnim==x then return end
+			currentAnim=x
+			speed=0.75
+			print(x)
+			for i=0,1,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(125),math.rad(0),math.rad(-25)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-15)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(5)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-5)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(13),math.rad(-35),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(45),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,1,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+		end
+		if x=="airAttack" then
+			if currentAnim==x then return end
+			currentAnim=x
+			speed=0.75
+			print(x)
+			for i=0,0.5,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(45),math.rad(0),math.rad(5)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-5)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(5)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-5)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(0),math.rad(45),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(-45),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			sound(233856146,1,0.95,rl)
+			grabWeld:Destroy()
+			local bv=Instance.new("BodyVelocity",grabbedCharacter:WaitForChild("Torso"))
+			bv.maxForce=Vector3.new(math.huge,math.huge,math.huge)
+			bv.velocity=head.CFrame.lookVector*10+Vector3.new(0,30,0)
+			game.Debris:AddItem(bv,0.05)
+			local bf=Instance.new("BodyForce",grabbedCharacter:WaitForChild("Torso"))
+			bf.force=Vector3.new(0,750,0)*grabbedCharacter:WaitForChild("Torso"):GetMass()
+			game.Debris:AddItem(bf,2.5)
+			grabbedCharacter.Humanoid.WalkSpeed=16
+			grabbedCharacter.Humanoid.JumpPower=50
+			for i=0,1,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(150),math.rad(0),math.rad(-25)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-15)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(5)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(0),math.rad(0),math.rad(-5)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(17.5),math.rad(-35),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(45),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,1,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),i*speed)
+				swait()
+			end
+			speed=0.2
+			hum.WalkSpeed=0
+			hum.JumpPower=0
+			magicBrick(Vector3.new(0,0,0),tor.CFrame*CFrame.new(0,0,0),Vector3.new(1,1,1),BrickColor.new("Deep orange"),"Neon",0,true,false,10,10,10,10,10,10,"FileMesh","http://www.roblox.com/asset/?id=6552202",Vector3.new(1,1,1),Vector3.new(10,10,10),5,true,1,0,CFrame.new(0,0,0)*CFrame.Angles(0,0,0))
+			coroutine.resume(coroutine.create(function()
+				for i=1,100 do
+					magicBrick(Vector3.new(0,0,0),ra.CFrame*CFrame.new(0,0,0)*CFrame.new(math.random(1,5),math.random(1,5),math.random(1,5))*CFrame.new(-5/2,-5/2,-5/2),Vector3.new(1,1,1),BrickColor.new("Deep orange"),"Neon",0,true,false,10,10,10,10,10,10,"Brick","",Vector3.new(1,1,1),Vector3.new(-0.2,-0.2,-0.2),15,true,1,0,CFrame.new(0,-1,0)*CFrame.Angles(math.random(),math.random(),math.random()))
+					magicBrick(Vector3.new(0,0,0),ra.CFrame*CFrame.new(0,0,0)*CFrame.new(math.random(1,5),math.random(1,5),math.random(1,5))*CFrame.new(-5/2,-5/2,-5/2),Vector3.new(1,1,1),BrickColor.new("Really black"),"Neon",0,true,false,10,10,10,10,10,10,"Brick","",Vector3.new(1,1,1),Vector3.new(-0.2,-0.2,-0.2),15,true,1,0,CFrame.new(0,-1,0)*CFrame.Angles(math.random(),math.random(),math.random()))
+					swait(.1)
+				end
+			end))
+			for i,v in pairs(grabbedCharacter:GetChildren()) do 
+				if v:IsA("Part") then
+					v.CanCollide=false
+				end
+				if v.ClassName=="Hat" then
+					for i,v in pairs(v:GetChildren()) do
+						if v:IsA("BasePart") then
+							v.CanCollide=false
+						end
+					end
+				end
+			end
+			sound(215395388,1,0.87,head)
+			for i=0,1.25,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(90),math.rad(0),math.rad(12)),i*speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(90),math.rad(0),math.rad(-12)),i*speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-23.5),math.rad(0),math.rad(0)),i*speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(0),math.rad(85),math.rad(0)),i*speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(0),math.rad(-85),math.rad(0)),i*speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,-0.65,0),i*speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,-0.45,0.3),i*speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,-0.45,0.3),i*speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),i*speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0.45,0),i*speed)
+				swait()
+			end
+			local bv=Instance.new("BodyVelocity",tor)
+			bv.maxForce=Vector3.new(math.huge,math.huge,math.huge)
+			bv.velocity=head.CFrame.lookVector*55+Vector3.new(0,60,0)
+			game.Debris:AddItem(bv,0.1)
+			for i=0,0.25,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(110),math.rad(0),math.rad(24)),speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(-24)),speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(0)),speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-23.5),math.rad(0),math.rad(0)),speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(-12),math.rad(75),math.rad(0)),speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(-75),math.rad(-75),math.rad(0)),speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,-0.45,0),speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),speed)
+				swait()
+			end
+			local didHit=false
+			coroutine.resume(coroutine.create(function()
+				if (grabbedCharacter:WaitForChild("Torso").Position-tor.Position).magnitude<=10 then
+					if not dmgDebounce then
+						dmgDebounce=true
+						sound(227194094,1,0.8,ra)
+						sound(215395468,2.5,0.9,head)
+						coroutine.resume(coroutine.create(function()
+							for i=1,3 do
+								magicBrick(Vector3.new(0,0,0),head.CFrame*CFrame.Angles(math.rad(24),0,0)*CFrame.new(0,0,-8+i*2),Vector3.new(1,1,1),BrickColor.new("Institutional white"),"SmoothPlastic",0,true,false,10,10,10,10,10,10,"FileMesh","http://www.roblox.com/asset/?id=3270017",Vector3.new(3,3,3),Vector3.new(2+i,2+i,0.5),6,true,1,0,CFrame.new(0,0,0)*CFrame.Angles(0,0,0))
+							end
+						end))
+						sound(206082327,2.5,1,grabbedCharacter:WaitForChild("Torso"))
+						grabbedCharacter.Humanoid:TakeDamage(grabbedCharacter.Humanoid.MaxHealth/5)
+						grabbedCharacter.Humanoid.PlatformStand=false
+						local bv=Instance.new("BodyVelocity",grabbedCharacter:WaitForChild("Torso"))
+						bv.maxForce=Vector3.new(math.huge,math.huge,math.huge)
+						bv.velocity=head.CFrame.lookVector*100+Vector3.new(0,0,0)
+						game.Debris:AddItem(bv,0.05)
+						didHit=true
+						wait(0.5)
+						dmgDebounce=false
+					end
+				end
+			end))
+			for i=0,0.25,0.1*speed do
+				poseJointC0(rm,rmC0,CFrame.Angles(math.rad(120),math.rad(0),math.rad(-24)),speed)
+				poseJointC0(lm,lmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(-24)),speed)
+				poseJointC0(rlm,rlmC0,CFrame.Angles(math.rad(-45),math.rad(0),math.rad(0)),speed)
+				poseJointC0(llm,llmC0,CFrame.Angles(math.rad(-23.5),math.rad(0),math.rad(0)),speed)
+				poseJointC0(neck,nC0,CFrame.Angles(math.rad(0),math.rad(-45),math.rad(0)),speed)
+				poseJointC0(rj,rjC0,CFrame.Angles(math.rad(-35),math.rad(45),math.rad(0)),speed)
+
+				poseJointC1(rm,rmC1,CFrame.new(0,0.35,0),speed)
+				poseJointC1(lm,lmC1,CFrame.new(0,0,0),speed)
+				poseJointC1(rlm,rlmC1,CFrame.new(0,0,0),speed)
+				poseJointC1(llm,llmC1,CFrame.new(0,0,0),speed)
+				poseJointC1(neck,nC1,CFrame.new(0,0,0),speed)
+				poseJointC1(rj,rjC1,CFrame.new(0,0,0),speed)
+				swait()
+			end
+			currentAnim=nil
+		end
+	end
+end
+
+function spar1()
+	if not doingMove then
+		doingMove=true
+		anim("spar1")
+		doingMove=false
+	end
+end
+
+function spar2()
+	if not doingMove then
+		doingMove=true
+		anim("spar2")
+		doingMove=false
+	end
+end
+
+function grab()
+	if not doingMove then
+		doingMove=true
+		hum.WalkSpeed=0
+		anim("grab")
+		doingMove=false
+	end
+end
+
+function release()
+	if not doingMove then
+		doingMove=true
+		anim("release")
+		doingMove=false
+	end
+end
+
+function airAttack()
+	if not doingMove then
+		doingMove=true
+		anim("airAttack")
+		doingMove=false
+	end
+end
+
+local currentSparAttack=1
+
+mouse.Button1Down:connect(function()
+	if grabbingMode then return end
+	if currentSparAttack==1 then
+		currentSparAttack=2
+		spar1()
+	elseif currentSparAttack==2 then
+		currentSparAttack=1
+		spar2()
+	end
+end)
+
+mouse.KeyDown:connect(function(k)
+	if k=="f" then
+		if not grabbingMode then
+			grab()
+		elseif grabbingMode then
+			grabbingMode=false
+			release()
+			hideGrabOptions()
+		end
+	end
+	if k=="e" then
+		if grabbingMode then
+			grabbingMode=false
+			airAttack()
+			hideGrabOptions()
+		end
+	end
+	if k=="v" then
+		sound(221920694,1,0.87,workspace)
+		coroutine.resume(coroutine.create(function()
+			for i=1,50 do
+				magicBrick(Vector3.new(0,0,0),tor.CFrame*CFrame.new(0,0,0)*CFrame.new(math.random(1,50),math.random(1,50),math.random(1,50))*CFrame.new(-50/2,-50/2,-50/2),Vector3.new(1,1,1),BrickColor.new("Deep orange"),"Neon",0,true,false,10,10,10,10,10,10,"Sphere","",Vector3.new(3.5,3.5,3.5),Vector3.new(5,5,5),16,true,1,0,CFrame.new(0,-1,0)*CFrame.Angles(math.random(),math.random(),math.random()))
+				magicBrick(Vector3.new(0,0,0),tor.CFrame*CFrame.new(0,0,0)*CFrame.new(math.random(1,50),math.random(1,50),math.random(1,50))*CFrame.new(-50/2,-50/2,-50/2),Vector3.new(1,1,1),BrickColor.new("Really black"),"Neon",0,true,false,10,10,10,10,10,10,"Sphere","",Vector3.new(3.5,3.5,3.5),Vector3.new(1,1,1),35,true,1,0,CFrame.new(0,2,0)*CFrame.Angles(math.random(),math.random(),math.random()))
+				swait(.1)
+			end
+		end))
+	end
+end)
+
+game:GetService("RunService").RenderStepped:connect(function()
+	if grabbingMode then
+		hum.WalkSpeed=defWS/1.1
+		hum.JumpPower=0
+	end
+	if not grabbingMode then
+		hum.WalkSpeed=defWS
+		hum.JumpPower=defJP
+	end
+	if attacking then
+		if RLattacking then
+			for i,v in pairs(workspace:GetChildren()) do
+				if v:findFirstChild("Humanoid",true)~=nil and v~=ch then
+					local vTorso=v:WaitForChild("Torso");
+					if (vTorso.Position-rl.Position).magnitude<=2.5 then
+						if not dmgDebounce then
+							dmgDebounce=true
+							sound(694048922,5,1,vTorso)
+							v.Humanoid:TakeDamage(7.5)
+							local bv=Instance.new("BodyVelocity",v:WaitForChild("Torso"))
+							bv.maxForce=Vector3.new(math.huge,math.huge,math.huge)
+							bv.velocity=head.CFrame.lookVector*25+Vector3.new(0,10,0)
+							game.Debris:AddItem(bv,0.05)
+							wait(0.5)
+							dmgDebounce=false
+						end
+					end
+				end
+			end
+		end
+		if grabbing then
+			for i,v in pairs(workspace:GetChildren()) do
+				if v:findFirstChild("Humanoid",true)~=nil and v~=ch then
+					local vTorso=v:WaitForChild("Torso");
+					if (vTorso.Position-ra.Position).magnitude<=3 then
+						if not dmgDebounce then
+							dmgDebounce=true
+							sound(200632821,5,1,vTorso)
+							v.Humanoid:TakeDamage(2)
+
+							grabbingMode=true	
+							grabbedCharacter=vTorso.Parent
+							grabbedCharacter.Humanoid.PlatformStand=false
+							grabbedCharacter.Humanoid.WalkSpeed=0
+							grabbedCharacter.Humanoid.JumpPower=0
+							for i,v in pairs(grabbedCharacter:GetChildren()) do 
+								if v:IsA("Part") then
+									v.CanCollide=false
+								end
+								if v.ClassName=="Hat" then
+									for i,v in pairs(v:GetChildren()) do
+										if v:IsA("BasePart") then
+											v.CanCollide=false
+										end
+									end
+								end
+							end
+							grabWeld=Instance.new("Weld",grabPart)
+							grabWeld.Part0=vTorso
+							grabWeld.Part1=grabPart
+							grabWeld.C0=CFrame.Angles(math.rad(90),0,0)
+
+							displayGrabOptions()
+
+							wait(0.5)
+							dmgDebounce=false
+						end
+					end
+				end
+			end
+		end
+	end
+	if hum.Jump and not grabbingMode then
+		anim("jump")
+		swait(1/4)
+		hum.Jump=false
+	end
+	if Vector3.new(0,tor.Velocity.y,0).magnitude>=10 and currentAnim~="jump" and currentAnim~="land" and hum:GetState()==Enum.HumanoidStateType.Freefall and not hum.Jump then
+		anim("descend")
+	end
+	if Vector3.new(tor.Velocity.x,0,tor.Velocity.z).magnitude<5 and currentAnim~="land" and currentAnim~="jump" and currentAnim~="descend" and hum:GetState()~=Enum.HumanoidStateType.Jumping and hum:GetState()~=Enum.HumanoidStateType.Freefall then
+		anim("idle")
+	elseif Vector3.new(tor.Velocity.x,0,tor.Velocity.z).magnitude>=5 and currentAnim~="land" and currentAnim~="jump" and currentAnim~="descend" and hum:GetState()~=Enum.HumanoidStateType.Jumping and hum:GetState()~=Enum.HumanoidStateType.Freefall then
+		anim("walk")
+	end
+	if grabbingMode then
+		grabbedCharacter.Humanoid.PlatformStand=false
+		anim("grabPose")
+	end 
+	grabPart.CFrame=ra:GetRenderCFrame()*CFrame.new(0,-1.25,-0.6)*CFrame.Angles(math.rad(-90),0,0)
+end)
