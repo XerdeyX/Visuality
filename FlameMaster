@@ -1,0 +1,904 @@
+
+-- [ Mali ] --
+-- [ Awesome Maplestory Animator] --
+
+LoudVolume = false
+Submerged = false
+Music = true
+script.Name = "Mali"
+Player = game.Players.LocalPlayer
+c = game.Players.LocalPlayer.Character
+Head = c.Head
+c.Animate.Disabled = true
+anim = c.Humanoid.Animator anim.Parent = nil
+p = game.Players.LocalPlayer
+Music = false
+Ragez = false
+local Effects = {}
+attack = false
+local attacking = false
+vt = Vector3.new
+bc = BrickColor.new
+br = BrickColor.random
+it = Instance.new
+cf = CFrame.new
+euler = CFrame.fromEulerAnglesXYZ
+angles = CFrame.Angles
+matr = math.random
+mouse = Player:GetMouse()
+
+RSC0 = CFrame.new(1, 0.5, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+RSC1 = CFrame.new(-0.5, 0.5, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+LSC0 = CFrame.new(-1, 0.5, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+LSC1 = CFrame.new(0.5, 0.5, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+RHC0 = CFrame.new(1, -1, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+RHC1 = CFrame.new(0.5, 1, 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+LHC0 = CFrame.new(-1, -1, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+LHC1 = CFrame.new(-0.5, 1, 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+NC0 = CFrame.new(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+NC1 = CFrame.new(0, -0.5, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+RJC0 = CFrame.new(0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+RJC1 = CFrame.new(0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+RS = c.Torso:FindFirstChild("Right Shoulder")
+LS = c.Torso:FindFirstChild("Left Shoulder")
+RH = c.Torso:FindFirstChild("Right Hip")
+LH = c.Torso:FindFirstChild("Left Hip")
+RJ = c.HumanoidRootPart:FindFirstChild("RootJoint")
+N = c.Torso:FindFirstChild("Neck")
+cf = CFrame.new
+ang = CFrame.Angles
+rd = math.rad
+rd2 = math.random
+
+c.Humanoid.JumpPower = 75
+function swait(num)
+	if num==0 or num==nil then
+		game:service'RunService'.Heartbeat:wait(0)
+	else
+		for i=0,num do
+			game:service'RunService'.Heartbeat:wait(0)
+		end
+	end
+end
+
+function lerpz(joint, prop, cfrmz, alp)
+	joint[prop] = joint[prop]:lerp(cfrmz, alp)
+end
+function resetlerp()
+	RJ.C0 = RJC0
+	RJ.C1 = RJC1
+	N.C0 = NC0
+	N.C1 = NC1
+	RS.C0 = RSC0
+	RS.C1 = RSC1
+	LS.C0 = LSC0
+	LS.C1 = LSC1
+	RH.C0 = RHC0
+	RH.C1 = RHC1
+	LH.C0 = LHC0
+	LH.C1 = LHC1
+end
+
+local Headset = Instance.new("Part",c)Headset.Size = Vector3.new(1,1,1)Headset.CanCollide = false Headset.BrickColor = BrickColor.new("Crimson")
+local HM = Instance.new("SpecialMesh",Headset)HM.MeshId = "rbxassetid://60667567" HM.Scale = Vector3.new(1.1, 1.1, 1.1)
+local HeadW = Instance.new("Weld",c.Head)HeadW.Part0 = c.Head HeadW.Part1 = Headset HeadW.C0 = CFrame.new(0,0.7,0)
+local Skate1 = Instance.new("Part",c)Skate1.Size = Vector3.new(0.1,0.2,0.9)Skate1.Reflectance = 1 Skate1.CanCollide = false 
+local SKW1 = Instance.new("Weld",c["Left Leg"])SKW1.Part0 = c["Left Leg"] SKW1.Part1 = Skate1 SKW1.C0 = CFrame.new(0,-1.1,0)
+local Skate2 = Instance.new("Part",c)Skate2.Size = Vector3.new(0.1,0.2,0.9)Skate2.Reflectance = 1 Skate2.CanCollide = false 
+local SKW2 = Instance.new("Weld",c["Right Leg"])SKW2.Part0 = c["Right Leg"] SKW2.Part1 = Skate2 SKW2.C0 = CFrame.new(0,-1.1,0)
+local ColorsArray = {ColorSequenceKeypoint.new(0, Color3.new(255/255,255/255,255/255)),ColorSequenceKeypoint.new(1, Color3.new(255/255,255/255,255/255))}
+for i = 1,2 do
+	if i == 1 then
+		local Atch1 = Instance.new("Attachment",Skate1)Atch1.Position = Vector3.new(0,0,0.45)
+		local Atch2 = Instance.new("Attachment",Skate1)Atch2.Position = Vector3.new(0,0,-0.45)
+		local Trail = Instance.new("Trail",Skate1)Trail.Attachment0 = Atch1 Trail.Attachment1 = Atch2
+		Trail.Texture = "rbxassetid://22636887" Trail.Lifetime = 0.25 Trail.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(1,1,0)})
+		Trail.Color = ColorSequence.new(ColorsArray) Trail.LightEmission = 1 Trail.Enabled = true
+	else
+		local Atch1 = Instance.new("Attachment",Skate2)Atch1.Position = Vector3.new(0,0,0.45)
+		local Atch2 = Instance.new("Attachment",Skate2)Atch2.Position = Vector3.new(0,0,-0.45)
+		local Trail = Instance.new("Trail",Skate2)Trail.Attachment0 = Atch1 Trail.Attachment1 = Atch2
+		Trail.Texture = "rbxassetid://22636887" Trail.Lifetime = 0.25 Trail.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(1,1,0)})
+		Trail.Color = ColorSequence.new(ColorsArray) Trail.LightEmission = 1 Trail.Enabled = true
+	end
+end
+
+D = 0
+function Font(i,Parent)
+	D = D+1
+	local C = Instance.new("ImageLabel",Parent)C.Size = UDim2.new(0.15,0,0.15,0) C.BackgroundTransparency = 1
+	C.Position = UDim2.new(D*0.15,0,0.205,0)
+	if i == "0" then C.Image = "rbxassetid://487236444" end
+	if i == "1" then C.Image = "rbxassetid://487236465" end
+	if i == "2" then C.Image = "rbxassetid://487236476" end
+	if i == "3" then C.Image = "rbxassetid://487236496" end
+	if i == "4" then C.Image = "rbxassetid://487236518" end
+	if i == "5" then C.Image = "rbxassetid://487236545" end
+	if i == "6" then C.Image = "rbxassetid://487236578" end
+	if i == "7" then C.Image = "rbxassetid://487236610" end
+	if i == "8" then C.Image = "rbxassetid://487236633" end
+	if i == "9" then C.Image = "rbxassetid://487236653" end
+end
+
+function ShowDamage(damage,pos)
+	D = 0
+	local P = Instance.new("Part",game.Workspace)P.Transparency = 1 P.Size = Vector3.new(0.2,0.2,0.2) P.CanCollide = false P.CFrame = CFrame.new(pos)
+	local bb = Instance.new("BillboardGui",P)bb.Size = UDim2.new(10,0,10,0)
+	local s = math.floor(damage*274)
+	for i in string.gmatch(s, "%d") do 
+		Font(i,bb)
+	end
+	Spawn(function()
+		local BV = Instance.new("BodyVelocity",P)BV.maxForce = Vector3.new(math.huge,math.huge,math.huge)
+		BV.Velocity = Vector3.new(math.random(-5,5),10,math.random(-5,5))
+		wait(0.5)
+		for i = 1,10 do
+			local G = bb:GetChildren()
+			for i = 1,#G do
+				if G[i].ClassName == "ImageLabel" then
+					G[i].ImageTransparency = G[i].ImageTransparency + 0.1
+				end
+			end
+			wait()
+		end
+	end)
+end
+
+function CExplosion(clone)
+	Spawn(function()
+		local ExpColors = {ColorSequenceKeypoint.new(0, Color3.new(255/255,144/255,46/255)),ColorSequenceKeypoint.new(0.121, Color3.new(0/255,0/255,0/255)),ColorSequenceKeypoint.new(1, Color3.new(0/255,0/255,0/255))}
+		local Exp = Instance.new("ParticleEmitter",clone.Torso)
+		Exp.Texture = "rbxassetid://850216805"
+		Exp.LightEmission = 0.85 Exp.Color = ColorSequence.new(ExpColors) Exp.Rate = 250 Exp.Rotation = NumberRange.new(-360,360)
+		Exp.Lifetime = NumberRange.new(1) Exp.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.0138,12.12,0),NumberSequenceKeypoint.new(1,16,0)})
+		Exp.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(1,1,0)}) Exp.Speed = NumberRange.new(10) Exp.SpreadAngle = Vector2.new(360,360) Exp.Name = "Explosion" Exp.LockedToPart = true
+		Exp.VelocityInheritance = 0.5 Exp.ZOffset = 2 Exp.Enabled = true clone.Parent = game.Workspace
+		for i,v in pairs(game.Workspace:children()) do
+			if v:findFirstChild("HumanoidRootPart")~= nil then
+				if (v.HumanoidRootPart.Position-clone.Torso.Position).magnitude <= 20 then
+					if v ~= c then
+						local Range = -(100-((v.HumanoidRootPart.Position-c.HumanoidRootPart.Position).magnitude)) print(Range)
+						v.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.CFrame:toWorldSpace(CFrame.new(0,0,0)).p,clone.Torso.Position)
+						if v.HumanoidRootPart:findFirstChild("BodyVelocity")~= nil then
+							v.HumanoidRootPart.BodyVelocity:remove()
+						end
+						local BV = Instance.new("BodyVelocity",v.HumanoidRootPart)BV.Velocity = v.HumanoidRootPart.CFrame.lookVector*Range BV.maxForce = Vector3.new(math.huge,math.huge,math.huge) game.Debris:AddItem(BV,0.1)
+					else
+						local Range = -(100-((v.HumanoidRootPart.Position-c.HumanoidRootPart.Position).magnitude)) print(Range)
+						v.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.CFrame:toWorldSpace(CFrame.new(0,0,0)).p,clone.Torso.Position)
+						if v.HumanoidRootPart:findFirstChild("BodyVelocity")~= nil then
+							v.HumanoidRootPart.BodyVelocity:remove()
+						end
+						local BV = Instance.new("BodyVelocity",v.HumanoidRootPart)BV.Velocity = v.HumanoidRootPart.CFrame.lookVector*Range BV.maxForce = Vector3.new(math.huge,math.huge,math.huge) game.Debris:AddItem(BV,0.1)
+					end
+					if v ~= c then
+						v.Humanoid:TakeDamage(10)ShowDamage(10,v.HumanoidRootPart.Position)
+					end
+				end
+			end
+		end
+		local S = Instance.new("Sound",clone.Torso)S.SoundId = "rbxassetid://472579737" S.Volume = 2 S:Play() game.Debris:AddItem(S,4)
+		for i,v in pairs(clone:children()) do if v.ClassName == "Part" then v.Transparency = 1 end end
+		wait(0.2)Exp.Enabled = false game.Debris:AddItem(clone,4)
+	end)
+end
+
+local m = Instance.new("Model",c)m.Name = "Clones"
+function Clone()
+	local cm = Instance.new("Model")cm.Name = "Clone"
+	for i,v in pairs(c:children()) do
+		if v.ClassName == "Part" and v.Name ~= "HumanoidRootPart" then
+			local cl = v:clone()cl.Anchored = true cl.CanCollide = false cl.Parent = cm cl.Reflectance = 0
+			cl.BrickColor = BrickColor.new("Bright red") cl.Transparency = 0.5 cl.TopSurface = "Smooth" cl.BottomSurface = "Smooth"
+			if cl:findFirstChild("face")~= nil then
+				cl.face:remove()
+			end
+		end
+		if v.ClassName == "Accessory" then
+			local cl = v.Handle:clone()cl.Anchored = true cl.CanCollide = false cl.Parent = cm cl.Mesh.TextureId = ""
+			cl.BrickColor = BrickColor.new("Bright red")cl.Transparency = 0.75 cl.TopSurface = "Smooth" cl.BottomSurface = "Smooth"
+		end
+	end
+	cm.Parent = m cm:BreakJoints() local S = Instance.new("Sound",cm.Torso)S.SoundId = "rbxassetid://528781006" S.Volume = 0.25 S:Play() game.Debris:AddItem(S,2)
+end
+
+
+function CloneExplode()
+	local exploded = false
+	if Ragez == false then
+		for i,v in pairs(m:children()) do
+			exploded = true
+			if v:findFirstChild("Torso")~= nil then
+				CExplosion(v)
+			end
+			if exploded == true then break end
+		end
+	else
+		for i,v in pairs(m:children()) do
+			if v:findFirstChild("Torso")~= nil then
+				CExplosion(v)
+			end
+		end
+	end
+end
+
+function ExplosionPillar()
+	attack = true
+	if Ragez == false then
+		c.HumanoidRootPart.Anchored = true
+		for i = 1,18 do
+			lerpz(RJ, "C0", RJC0 * cf(0, 2, 0) * ang(rd(-25), rd(0), rd(-25)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(25), rd(0), rd(15)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 1, 0) * ang(rd(0), rd(25), rd(175)), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(75), rd(-85)), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			swait()
+		end
+		for i = 1,6 do
+			lerpz(RJ, "C0", RJC0 * cf(0, -1.5, -2) * ang(rd(35), rd(0), rd(76)), 0.5)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-76)), 0.5) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0.25, -0.5, 0) * ang(rd(0), rd(-75), rd(180)), 0.5) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(75), rd(-85)), 0.5) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(1, 1, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(75)), 0.5)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			swait()
+		end
+		local P = Instance.new("Part",game.Workspace)P.Transparency = 1 P.Size = Vector3.new(1,1,1)P.Anchored = true P.CanCollide = false
+		P.Position = mouse.hit.p P.CFrame = P.CFrame*CFrame.new(0,-3,0)
+		local ExpColors = {ColorSequenceKeypoint.new(0, Color3.new(255/255,144/255,46/255)),ColorSequenceKeypoint.new(1, Color3.new(255/255,144/255,46/255))}
+		local Exp = Instance.new("ParticleEmitter",P)
+		Exp.Texture = "rbxassetid://850216805"
+		Exp.LightEmission = 0.85
+		Exp.Color = ColorSequence.new(ExpColors)
+		Exp.Rate = 500
+		Exp.Lifetime = NumberRange.new(0.25)
+		Exp.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.0138,12.12,0),NumberSequenceKeypoint.new(1,12,0)})
+		Exp.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(1,1,0)}) Exp.Rotation = NumberRange.new(-360,360)
+		Exp.Speed = NumberRange.new(250) Exp.SpreadAngle = Vector2.new(15,15) Exp.Name = "Explosion" Exp.LockedToPart = true
+		Exp.VelocityInheritance = 0.5 Exp.ZOffset = 2 Exp.Enabled = true
+		local S = Instance.new("Sound",P)S.SoundId = "rbxassetid://165969964" S.Volume = 2 S:Play() game.Debris:AddItem(S,4)
+		for i,v in pairs(game.Workspace:children()) do
+			if v:findFirstChild("HumanoidRootPart")~= nil and v ~= c then
+				if (v.HumanoidRootPart.Position-P.Position).magnitude <= 15 then
+					v.Humanoid:TakeDamage(25)ShowDamage(25,v.HumanoidRootPart.Position)
+					local Range = -(200-((v.HumanoidRootPart.Position-c.HumanoidRootPart.Position).magnitude)*15)
+					v.HumanoidRootPart.CFrame = CFrame.new(v.Torso.CFrame:toWorldSpace(CFrame.new(0,0,0)).p,P.Position)
+					if v.HumanoidRootPart:findFirstChild("BodyVelocity")~= nil then
+						v.HumanoidRootPart.BodyVelocity:remove()
+					end
+					local BV = Instance.new("BodyVelocity",v.HumanoidRootPart)BV.Velocity = v.HumanoidRootPart.CFrame.lookVector*Range BV.maxForce = Vector3.new(math.huge,math.huge,math.huge) game.Debris:AddItem(BV,0.1)
+				end
+			end
+		end
+		wait(0.5)Exp.Enabled = false
+		for i = 1,2 do
+			lerpz(RJ, "C0", RJC0 * cf(0, 2, 0) * ang(rd(-25), rd(0), rd(-25)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(25), rd(0), rd(15)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 1, 0) * ang(rd(0), rd(25), rd(175)), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(75), rd(-85)), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			swait()
+		end
+		c.HumanoidRootPart.Anchored = false
+	else
+		c.HumanoidRootPart.Anchored = true
+		for i = 1,18 do
+			lerpz(RJ, "C0", RJC0 * cf(0, 2, 0) * ang(rd(-25), rd(0), rd(-25)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(25), rd(0), rd(15)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 1, 0) * ang(rd(0), rd(25), rd(175)), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(75), rd(-85)), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			swait()
+		end
+		for i = 1,6 do
+			lerpz(RJ, "C0", RJC0 * cf(0, -1.5, -2) * ang(rd(35), rd(0), rd(76)), 0.5)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-76)), 0.5) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0.25, -0.5, 0) * ang(rd(0), rd(-75), rd(180)), 0.5) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(75), rd(-85)), 0.5) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(1, 1, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(75)), 0.5)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			swait()
+		end
+		for i = 1,10 do
+			local P = Instance.new("Part",game.Workspace)P.Transparency = 1 P.Size = Vector3.new(1,1,1)P.Anchored = true P.CanCollide = false
+			P.CFrame = c.HumanoidRootPart.CFrame*CFrame.new(0,-3,-(10+i*10))
+			local ExpColors = {ColorSequenceKeypoint.new(0, Color3.new(255/255,144/255,46/255)),ColorSequenceKeypoint.new(1, Color3.new(255/255,144/255,46/255))}
+			local Exp = Instance.new("ParticleEmitter",P)
+			Exp.Texture = "rbxassetid://850216805"
+			Exp.LightEmission = 0.85
+			Exp.Color = ColorSequence.new(ExpColors)
+			Exp.Rate = 500
+			Exp.Lifetime = NumberRange.new(0.25)
+			Exp.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.0138,12.12,0),NumberSequenceKeypoint.new(1,12,0)})
+			Exp.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(1,1,0)}) Exp.Rotation = NumberRange.new(-360,360)
+			Exp.Speed = NumberRange.new(250) Exp.SpreadAngle = Vector2.new(15,15) Exp.Name = "Explosion" Exp.LockedToPart = true
+			Exp.VelocityInheritance = 0.5 Exp.ZOffset = 2 Exp.Enabled = true
+			local S = Instance.new("Sound",P)S.SoundId = "rbxassetid://165969964" S.Volume = 2 S:Play() game.Debris:AddItem(S,4)
+			for i,v in pairs(game.Workspace:children()) do
+				if v:findFirstChild("HumanoidRootPart")~= nil and v ~= c then
+					if (v.HumanoidRootPart.Position-P.Position).magnitude <= 15 then
+						v.Humanoid:TakeDamage(25)ShowDamage(25,v.HumanoidRootPart.Position)
+						local Range = -(200-((v.HumanoidRootPart.Position-c.HumanoidRootPart.Position).magnitude)*15)
+						v.HumanoidRootPart.CFrame = CFrame.new(v.Torso.CFrame:toWorldSpace(CFrame.new(0,0,0)).p,P.Position)
+						if v.HumanoidRootPart:findFirstChild("BodyVelocity")~= nil then
+							v.HumanoidRootPart.BodyVelocity:remove()
+						end
+						local BV = Instance.new("BodyVelocity",v.HumanoidRootPart)BV.Velocity = v.HumanoidRootPart.CFrame.lookVector*Range BV.maxForce = Vector3.new(math.huge,math.huge,math.huge) game.Debris:AddItem(BV,0.1)
+					end
+				end
+			end
+			wait(0.1)Exp.Enabled = false
+			for i = 1,2 do
+				lerpz(RJ, "C0", RJC0 * cf(0, 2, 0) * ang(rd(-25), rd(0), rd(-25)), 0.25)-- Y, X, Z
+				lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(25), rd(0), rd(15)), 0.25) -- Y, X, Z
+				lerpz(RS, "C0", RSC0 * cf(0, 1, 0) * ang(rd(0), rd(25), rd(175)), 0.25) -- Z, X, Y 
+				lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+				lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(75), rd(-85)), 0.25) -- Z, X, Y
+				lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+				lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+				lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+				lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+				lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+				swait()
+			end
+			c.HumanoidRootPart.Anchored = false
+		end
+	end
+	attack = false
+end
+
+function ExplosiveSlam()
+	attack = true
+	local hit = false
+	local W = nil
+	local Target = nil
+	for i = 1,18 do
+		lerpz(RJ, "C0", RJC0 * cf(0, 1, 0) * ang(rd(-10), rd(0), rd(-65)), 0.25)-- Y, X, Z
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(10), rd(0), rd(65)), 0.25) -- Y, X, Z
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(25), rd(85)), 0.25) -- Z, X, Y 
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(75), rd(-85)), 0.25) -- Z, X, Y
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+		swait()
+	end
+	local t = c["Right Arm"].Touched:connect(function(Hit)
+		if hit == false then
+			if Hit.Parent:findFirstChild("HumanoidRootPart")~= nil and Hit.Parent:findFirstChild("Humanoid").Health >= 5 then
+				Hit.Parent.Humanoid.PlatformStand = true hit = true
+				Target = Hit.Parent
+				W = Instance.new("Weld",Hit.Parent.Head)W.Part0 = Hit.Parent.Head W.Part1 = c["Right Arm"] W.C0 = CFrame.new(0,-1,-0.5)*CFrame.Angles(math.rad(-135),math.rad(180),0)
+				swait()
+			end
+		end
+	end)
+	for i = 1,6 do
+		if hit == true then break end
+		c.HumanoidRootPart.CFrame = c.HumanoidRootPart.CFrame*CFrame.new(0,0,-1)
+		lerpz(RJ, "C0", RJC0 * cf(0, -2, 0) * ang(rd(10), rd(0), rd(75)), 0.5)-- Y, X, Z
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(5), rd(0), rd(-75)), 0.5) -- Y, X, Z
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(-45), rd(95)), 0.5) -- Z, X, Y 
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(-25), rd(-85)), 0.5) -- Z, X, Y
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		swait()
+	end
+	for i = 1,16 do
+		if hit == true then break end
+		lerpz(RJ, "C0", RJC0 * cf(0, -2, 0) * ang(rd(20), rd(0), rd(120)), 0.5)-- Y, X, Z
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(5), rd(0), rd(-120)), 0.5) -- Y, X, Z
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(-80), rd(100)), 0.5) -- Z, X, Y 
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(-25), rd(-85)), 0.5) -- Z, X, Y
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		swait()
+	end
+	t:disconnect()
+	if hit == true then
+		Target.Parent = c
+		c.HumanoidRootPart.Anchored = true
+		for i = 1,24 do
+			W.C0 = CFrame.new(-1.5,-1,-1)*CFrame.Angles(math.rad(-90),math.rad(180),0)
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(90)), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-90)), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			swait()
+		end
+		local Charge = 0 local Noise = 0
+		for i = 1,35 do Charge = Charge + 1
+			if Noise == 5 then
+				Noise = 0
+				local GS = Instance.new("Sound",c.HumanoidRootPart)GS.Volume = 1 GS.SoundId = "rbxassetid://320557487" GS:Play()
+			else
+				Noise = Noise + 1
+			end
+			c.HumanoidRootPart.CFrame = c.HumanoidRootPart.CFrame*CFrame.new(0,4.5,0)
+			W.C0 = CFrame.new(-1.5,-1,-1)*CFrame.Angles(math.rad(-90),math.rad(180),0)
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(Charge*45), rd(0), rd(0)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(90)), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-90)), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0.5, 1.5, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(-0.5, 1.5, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			swait()
+		end
+		for i = 1,3 do
+			W.C0 = CFrame.new(0,0,-1)*CFrame.Angles(math.rad(-90),math.rad(180),math.rad(-45))
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(90), rd(0), rd(45)), 0.5)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(90)), 0.5) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(180)), 0.5) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-45)), 0.5)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(45)), 0.5)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			swait()
+		end
+		c.HumanoidRootPart.Anchored = false
+		local hit2 = false
+		local t2 = Target["Left Leg"].Touched:connect(function(Hit)
+			hit2 = true
+		end)
+		while hit2 == false do Charge = Charge + 1
+			if Noise == 5 then
+				Noise = 0
+				local GS = Instance.new("Sound",c.HumanoidRootPart)GS.Volume = 1 GS.SoundId = "rbxassetid://320557487" GS:Play()
+			else
+				Noise = Noise + 1
+			end
+			W.C0 = CFrame.new(-1.5,-1,-1)*CFrame.Angles(math.rad(-90),math.rad(180),0)
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(Charge*45), rd(0), rd(0)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(90)), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-90)), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0.5, 1.5, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(-0.5, 1.5, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			Target.Humanoid.PlatformStand = true
+			swait()
+		end
+		c.HumanoidRootPart.Anchored = true
+		t2:disconnect()
+		for i = 1,3 do
+			lerpz(RJ, "C0", RJC0 * cf(0, -1.5, -2) * ang(rd(35), rd(0), rd(76)), 0.5)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-76)), 0.5) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0.25, -0.5, 0) * ang(rd(0), rd(-75), rd(180)), 0.5) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(75), rd(-85)), 0.5) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(1, 1, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(75)), 0.5)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			swait()
+		end
+		local P = Instance.new("Part",game.Workspace)P.Transparency = 1 P.Size = Vector3.new(1,1,1)P.Anchored = true P.CanCollide = false
+		P.CFrame = CFrame.new(Target.HumanoidRootPart.Position)
+		local ExpColors = {ColorSequenceKeypoint.new(0, Color3.new(255/255,144/255,46/255)),ColorSequenceKeypoint.new(1, Color3.new(255/255,144/255,46/255))}
+		local Exp = Instance.new("ParticleEmitter",P)
+		Exp.Texture = "rbxassetid://850216805"
+		Exp.LightEmission = 0.85
+		Exp.Color = ColorSequence.new(ExpColors)
+		Exp.Rate = 500
+		Exp.Lifetime = NumberRange.new(0.25)
+		Exp.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.0138,12.12,0),NumberSequenceKeypoint.new(1,12,0)})
+		Exp.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(1,1,0)}) Exp.Rotation = NumberRange.new(-360,360)
+		Exp.Speed = NumberRange.new(250) Exp.SpreadAngle = Vector2.new(15,15) Exp.Name = "Explosion" Exp.LockedToPart = true
+		Exp.VelocityInheritance = 0.5 Exp.ZOffset = 2 Exp.Enabled = true
+		W.C0 = CFrame.new(0,0,-1)*CFrame.Angles(math.rad(-45),math.rad(180),0)
+		local GS = Instance.new("Sound",c["Right Arm"])GS.Volume = 1 GS.SoundId = "rbxassetid://165969964" GS:Play()
+		local HeadRip = false
+		local damage = math.random(64,76)
+		if Target.Humanoid.Health <= damage then
+			HeadRip = true W:remove()
+		end
+		swait()
+		ShowDamage(damage,c["Right Arm"].Position, true)
+		Target.Humanoid:TakeDamage(damage)
+		Target.Parent = game.Workspace
+		if W ~= nil then
+			W:remove()
+		end
+		c.HumanoidRootPart.Anchored = false c.Humanoid.Jump = true
+		Target.Humanoid.PlatformStand = false
+		W.C0 = CFrame.new(0,-1,-0.5)*CFrame.Angles(math.rad(-135),math.rad(180),0)
+		wait(0.5) Exp.Enabled = false
+		wait()
+	end
+	attack = false
+end
+
+function FlyingSlam()
+	attack = true
+	local hit = false
+	local W = nil
+	local Target = nil
+	for i = 1,18 do
+		lerpz(RJ, "C0", RJC0 * cf(0, 1, 0) * ang(rd(-10), rd(0), rd(-65)), 0.25)-- Y, X, Z
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(10), rd(0), rd(65)), 0.25) -- Y, X, Z
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(25), rd(85)), 0.25) -- Z, X, Y 
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(75), rd(-85)), 0.25) -- Z, X, Y
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+		swait()
+	end
+	local t = c["Right Arm"].Touched:connect(function(Hit)
+		if hit == false then
+			if Hit.Parent:findFirstChild("HumanoidRootPart")~= nil and Hit.Parent:findFirstChild("Humanoid").Health >= 5 then
+				Hit.Parent.Humanoid.PlatformStand = true hit = true
+				Target = Hit.Parent
+				W = Instance.new("Weld",Hit.Parent.Head)W.Part0 = Hit.Parent.Head W.Part1 = c["Right Arm"] W.C0 = CFrame.new(0,-1,-0.5)*CFrame.Angles(math.rad(-135),math.rad(180),0)
+				swait()
+			end
+		end
+	end)
+	for i = 1,6 do
+		if hit == true then break end
+		c.HumanoidRootPart.CFrame = c.HumanoidRootPart.CFrame*CFrame.new(0,0,-1)
+		lerpz(RJ, "C0", RJC0 * cf(0, -2, 0) * ang(rd(10), rd(0), rd(75)), 0.5)-- Y, X, Z
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(5), rd(0), rd(-75)), 0.5) -- Y, X, Z
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(-45), rd(95)), 0.5) -- Z, X, Y 
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(-25), rd(-85)), 0.5) -- Z, X, Y
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		swait()
+	end
+	for i = 1,16 do
+		if hit == true then break end
+		lerpz(RJ, "C0", RJC0 * cf(0, -2, 0) * ang(rd(20), rd(0), rd(120)), 0.5)-- Y, X, Z
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(5), rd(0), rd(-120)), 0.5) -- Y, X, Z
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(-80), rd(100)), 0.5) -- Z, X, Y 
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(-25), rd(-85)), 0.5) -- Z, X, Y
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+		swait()
+	end
+	t:disconnect()
+	if hit == true then
+		c.Humanoid.JumpPower = 150
+		swait()
+		c.Humanoid.Jump = true
+		Target.Parent = c
+		for i = 1,2 do
+			W.C0 = CFrame.new(-1,-1,-1)*CFrame.Angles(math.rad(-90),math.rad(180),math.rad(-45))
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, -0.5) * ang(rd(55), rd(0), rd(0)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(-55), rd(0), rd(0)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(-90), rd(90)), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-90)), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(-5), rd(0), rd(-75)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(-5), rd(0), rd(-90)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			swait()
+		end
+		c.Humanoid.JumpPower = 75
+		W.C0 = CFrame.new(-1,-1,-1)*CFrame.Angles(math.rad(-90),math.rad(180),math.rad(-45))
+		c.HumanoidRootPart.Anchored = false
+		local hit2 = false
+		local t2 = Target["Left Leg"].Touched:connect(function(Hit)
+			hit2 = true
+		end)
+		local Charge = 0
+		while hit2 == false do Charge = Charge + 1
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, -0.5) * ang(rd(55), rd(0), rd(Charge*45)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(-55), rd(0), rd(0)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(-90), rd(90)), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-90)), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(-5), rd(0), rd(-75)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(-5), rd(0), rd(-90)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			Target.Humanoid.PlatformStand = true
+			swait()
+		end
+		c.HumanoidRootPart.Anchored = true
+		t2:disconnect()
+		for i = 1,3 do
+			lerpz(RJ, "C0", RJC0 * cf(0, -1.5, -2) * ang(rd(35), rd(0), rd(76)), 0.5)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-76)), 0.5) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0.25, -0.5, 0) * ang(rd(0), rd(-75), rd(180)), 0.5) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(75), rd(-85)), 0.5) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(1, 1, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(75)), 0.5)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.5)
+			swait()
+		end
+		local P = Instance.new("Part",game.Workspace)P.Transparency = 1 P.Size = Vector3.new(1,1,1)P.Anchored = true P.CanCollide = false
+		P.CFrame = CFrame.new(Target.HumanoidRootPart.Position)
+		local ExpColors = {ColorSequenceKeypoint.new(0, Color3.new(255/255,144/255,46/255)),ColorSequenceKeypoint.new(1, Color3.new(255/255,144/255,46/255))}
+		local Exp = Instance.new("ParticleEmitter",P)
+		Exp.Texture = "rbxassetid://850216805"
+		Exp.LightEmission = 0.85
+		Exp.Color = ColorSequence.new(ExpColors)
+		Exp.Rate = 500
+		Exp.Lifetime = NumberRange.new(0.25)
+		Exp.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.0138,12.12,0),NumberSequenceKeypoint.new(1,12,0)})
+		Exp.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(1,1,0)}) Exp.Rotation = NumberRange.new(-360,360)
+		Exp.Speed = NumberRange.new(250) Exp.SpreadAngle = Vector2.new(15,15) Exp.Name = "Explosion" Exp.LockedToPart = true
+		Exp.VelocityInheritance = 0.5 Exp.ZOffset = 2 Exp.Enabled = true
+		W.C0 = CFrame.new(0,0,-1)*CFrame.Angles(math.rad(-45),math.rad(180),0)
+		local GS = Instance.new("Sound",c["Right Arm"])GS.Volume = 1 GS.SoundId = "rbxassetid://165969964" GS:Play()
+		local HeadRip = false
+		local damage = math.random(64,76)
+		if Target.Humanoid.Health <= damage then
+			HeadRip = true W:remove()
+		end
+		swait()
+		ShowDamage(damage,c["Right Arm"].Position, true)
+		Target.Humanoid:TakeDamage(damage)
+		Target.Parent = game.Workspace
+		if W ~= nil then
+			W:remove()
+		end
+		c.HumanoidRootPart.Anchored = false c.Humanoid.Jump = true
+		Target.Humanoid.PlatformStand = false
+		W.C0 = CFrame.new(0,-1,-0.5)*CFrame.Angles(math.rad(-135),math.rad(180),0)
+		wait(0.5) Exp.Enabled = false
+		wait()
+	end
+	attack = false
+end
+
+Music1 = Instance.new("Sound",Headset)Music1.Volume = 0.05 Music1.SoundId = "rbxassetid://880828700" Music1.Looped = true
+Music2 = Instance.new("Sound",Player.PlayerGui)Music2.Volume = 2 Music2.SoundId = "rbxassetid://880828700" Music2.Looped = true
+
+Song = 1
+function MusicChange()
+	if Song == 1 then Song = 2
+		Music1.SoundId = "rbxassetid://878752769"
+		Music2.SoundId = "rbxassetid://878752769"
+	elseif Song == 2 then Song = 3
+		Music1.SoundId = "rbxassetid://318496426"
+		Music2.SoundId = "rbxassetid://318496426"	
+	elseif Song == 3 then Song = 4
+		Music1.SoundId = "rbxassetid://170328519"
+		Music2.SoundId = "rbxassetid://170328519"
+	elseif Song == 4 then Song = 5
+		Music1.SoundId = "rbxassetid://186970690"
+		Music2.SoundId = "rbxassetid://186970690"	
+	else Song = 1
+		Music1.SoundId = "rbxassetid://880828700"
+		Music2.SoundId = "rbxassetid://880828700"	
+	end
+end
+
+MusicPlaying = false
+function PlayMusic()
+	if MusicPlaying == false then
+		MusicPlaying = true
+		Music1:Play()
+		Music2:Play()
+		while MusicPlaying == true do
+			HM.Scale = Vector3.new(1.1,1.1+Music1.PlaybackLoudness/1000,1.1+Music1.PlaybackLoudness/1000)
+			swait()
+		end
+	else
+		MusicPlaying = false
+		Music1:Stop()
+		Music2:Stop()
+		HM.Scale = Vector3.new(1.1,1.1,1.1)
+	end
+end
+
+function Rage()
+	if Ragez == false then Ragez = true
+		game:GetService("Chat"):Chat(c.Head,"Full Power!",3)
+		local P = Instance.new("Part",game.Workspace)P.Size = Vector3.new(1,1,1)P.BrickColor = BrickColor.new("White")P.Material = "Neon"
+		P.Anchored = true P.CanCollide = false local SP = Instance.new("SpecialMesh",P)SP.MeshType = "Sphere"
+		SP.Scale = Vector3.new(0,0,0)P.CFrame = c.HumanoidRootPart.CFrame
+		Spawn(function()
+			for i = 1,30 do
+				SP.Scale = SP.Scale+Vector3.new(1,1,1) P.Transparency = P.Transparency + 1/30
+				P.CFrame = c.HumanoidRootPart.CFrame
+				swait()
+			end
+		end)
+	else
+		Ragez = false
+		game:GetService("Chat"):Chat(c.Head,"Back to normal.",3)
+	end
+end
+
+mouse.KeyDown:connect(function(key)
+	if attack == true then return end
+	if key == "q" then
+		Clone()
+	end
+	if key == "e" then
+		CloneExplode()
+	end
+	if key == "z" then
+		ExplosionPillar()
+	end
+	if key == "x" then
+		ExplosiveSlam()
+	end
+	if key == "c" then
+		FlyingSlam()
+	end
+	if key == "n" then
+		Rage()
+	end
+	if key == "m" then
+		PlayMusic()
+	end
+	if key == "," then
+		MusicChange()
+	end
+end)
+
+function IcePath()
+	local Ice = Instance.new("Part",game.Workspace)Ice.Size = Vector3.new(4,1,4)Ice.Material = "Ice" Ice.TopSurface = "Smooth" Ice.BottomSurface = "Smooth"
+	Ice.BrickColor = BrickColor.new("Light blue")Ice.CFrame = c.HumanoidRootPart.CFrame*CFrame.new(0,-3.45,0)*CFrame.Angles(0,math.rad(math.random(-90,90)),0)
+	Ice.Anchored = true Ice.CanCollide = false
+	Spawn(function()
+		for i = 1,25 do
+			Ice.Transparency = Ice.Transparency + 1/25
+			Ice.Size = Ice.Size-Vector3.new(0.1,0,0.1)
+			Ice.CFrame = Ice.CFrame
+			swait()
+		end
+		Ice:remove()
+	end)
+end
+
+local SkateSound = Instance.new("Sound",c.HumanoidRootPart)SkateSound.Volume = 0.1 SkateSound.SoundId = "rbxassetid://403051346" SkateSound.Looped = true SkateSound:Play()
+
+jump = 1 jumpcharge = 0
+jumpchange = false
+sine = 0 Sped = 0
+game:GetService("RunService").RenderStepped:connect(function()
+	if attack == false then 
+		if c.HumanoidRootPart.Velocity.Y > 0.25 then Sped = Sped + 1
+			if jumpchange == false then jumpcharge = 0
+				jumpchange = true if jump == 3 then jump = 1 else jump = jump + 1 end
+			end SkateSound.Volume = 0
+			if jump == 1 then
+				lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(-5), rd(0), rd(0)), 0.25)-- Y, X, Z
+				lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(-10), rd(0), rd(0)), 0.25) -- Y, X, Z
+				lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-10)), 0.25) -- Z, X, Y 
+				lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+				lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(10)), 0.25) -- Z, X, Y
+				lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+				lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(-5), rd(0), rd(-25)), 0.25)
+				lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+				lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(-5), rd(0), rd(25)), 0.25)
+				lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			elseif jump == 2 then jumpcharge = jumpcharge + 1
+				lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(jumpcharge*45), rd(0), rd(0)), 0.25)-- Y, X, Z
+				lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Y, X, Z
+				lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(90)), 0.25) -- Z, X, Y 
+				lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+				lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-90)), 0.25) -- Z, X, Y
+				lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+				lerpz(RH, "C0", RHC0 * cf(0.5, 1.5, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+				lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+				lerpz(LH, "C0", LHC0 * cf(-0.5, 1.5, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+				lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			else jumpcharge = jumpcharge + 1 
+				lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(15), rd(0), rd(-jumpcharge*25)), 0.25)-- Y, X, Z
+				lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Y, X, Z
+				lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y 
+				lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+				lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+				lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+				lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(-15), rd(0), rd(0)), 0.25)
+				lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+				lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(-15), rd(0), rd(0)), 0.25)
+				lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			end
+		elseif c.HumanoidRootPart.Velocity.Y < -0.25 then jumpchange = false 
+			if c.Humanoid.WalkSpeed <= 64 then 
+				c.Humanoid.WalkSpeed = 16+Sped*0.5
+			end
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(10), rd(0), rd(0)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(155)), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-155)), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(-5), rd(0), rd(25)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(-5), rd(0), rd(-25)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+		elseif (c.HumanoidRootPart.Velocity * Vector3.new(1, 0, 1)).magnitude > 1 then jumpchange = false Sped = Sped + 1
+			if c.Humanoid.WalkSpeed <= 64 then 
+				c.Humanoid.WalkSpeed = 16+Sped*0.5
+			end
+			SkateSound.Volume = 0.1
+			sine = sine + 1 
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 0.1+(math.cos(sine/5.5)*0.1)) * ang(rd(20), rd(0), rd(0)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(-20), rd(0), rd(0)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(-5+(math.cos(sine/9)*-25)), rd(0), rd(25+(math.cos(sine/11)*-90))), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(-5+(math.cos(sine/9)*25)), rd(0), rd(-25+(math.cos(sine/11)*-90))), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0.25+(math.cos(sine/11)*0.25), 0.25+(math.cos(sine/5.5)*0.25), 0) * ang(rd(-5+(math.cos(sine/5.5)*15)), rd(0), rd(-15+(math.cos(sine/11)*50))), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(-0.25+(math.cos(sine/11)*0.25), 0.25+(math.cos(sine/5.5)*0.25), 0) * ang(rd(-5+(math.cos(sine/5.5)*15)), rd(0), rd(15+(math.cos(sine/11)*50))), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			swait()
+		else sine = sine + 1 Sped = 0 c.Humanoid.WalkSpeed = 16 SkateSound.Volume = 0
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 0.1+(math.cos(sine/11)*-0.1)) * ang(rd(0), rd(0), rd(0)), 0.25)-- Y, X, Z
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Y, X, Z
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd((math.cos(sine/24)*-45))), 0.25) -- Z, X, Y 
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd((math.cos(sine/24)*-45))), 0.25) -- Z, X, Y
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25) -- Z, X, Y
+			lerpz(RH, "C0", RHC0 * cf(0, 0.1+(math.cos(sine/11)*0.1), 0) * ang(rd(-5), rd(0), rd(0)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(0, 0.1+(math.cos(sine/11)*0.1), 0) * ang(rd(-5), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			swait()
+		end
+	end
+end)
