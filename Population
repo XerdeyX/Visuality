@@ -1,0 +1,1270 @@
+task.wait(3)
+
+Player = game.Players.LocalPlayer
+c = Player.Character c.Archivable = true
+HumanoidName = "Human"
+
+RSC0 = CFrame.new(1.5 , 0.5 , 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+RSC1 = CFrame.new(0, 0.5 , 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+LSC0 = CFrame.new(-1.5 , 0.5 , 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+LSC1 = CFrame.new(0, 0.5 , 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+RHC0 = CFrame.new(0.5 , -1 , 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+RHC1 = CFrame.new(0, 1 , 0, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+LHC0 = CFrame.new(-0.5 , -1 , 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+LHC1 = CFrame.new(0 , 1 , 0, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+RJC0 = CFrame.new(0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+RJC1 = CFrame.new(0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+NC0 = CFrame.new(0, 1 , 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+NC1 = CFrame.new(0, -0.5 , 0, -1, 0, 0, 0, 0, 1, 0, 1, 0)
+--mouse = Player:GetMouse()
+
+local m = Instance.new("Model",c)m.Name = "People"
+local mtwo = Instance.new("Model",c)mtwo.Name = "Buildings"
+local SoundCopy = Instance.new("Sound")
+
+gui = function(GuiType, parent, text, backtrans, backcol, pos, size)
+	local gui = Instance.new(GuiType)
+	gui.Parent = parent
+	gui.Text = text
+	gui.BackgroundTransparency = backtrans
+	gui.BackgroundColor3 = backcol
+	gui.SizeConstraint = "RelativeXY"
+	gui.TextXAlignment = "Center"
+	gui.TextYAlignment = "Center"
+	gui.Position = pos
+	gui.Size = size
+	gui.Font = "SourceSans"
+	gui.FontSize = "Size14"
+	gui.TextWrapped = false
+	gui.TextStrokeTransparency = 0
+	gui.TextColor = BrickColor.new("White")
+	return gui
+end
+local basgui = Instance.new("GuiMain")
+basgui.Parent = Player.PlayerGui
+basgui.Name = "CooldownsGUI"
+local basframe = Instance.new("Frame")
+basframe.Parent = basgui
+basframe.BackgroundColor3 = Color3.new(255, 255, 255)
+basframe.BackgroundTransparency = 1
+basframe.BorderColor3 = Color3.new(17, 17, 17)
+basframe.Size = UDim2.new(0.2, 0, 0.2, 0)
+basframe.Position = UDim2.new(0.8, 0, 0.8, 0)
+local basicgui = gui("TextLabel", basframe, "Basic", 0, BrickColor.new("Really blue").Color, UDim2.new(0.35, 0, -0.125, 0), UDim2.new(0.45, 0, 0.35, 0))
+basicgui.ZIndex = 2
+basicgui.Font = "Highway"
+basicgui.BackgroundTransparency = 0.5
+basicgui.BorderSizePixel = 0.65
+basicgui.TextScaled = true
+basicgui.Text = "Deaths: 0"
+basicgui.TextSize = 24
+local basicgui2 = gui("TextLabel", basframe, "Basic", 0, BrickColor.new("Really blue").Color, UDim2.new(-0.15, 0, -0.125, 0), UDim2.new(0.45, 0, 0.35, 0))
+basicgui2.ZIndex = 2
+basicgui2.Font = "Highway"
+basicgui2.BackgroundTransparency = 0.5
+basicgui2.BorderSizePixel = 0.65
+basicgui2.TextScaled = true
+basicgui2.Text = "Population: 4"
+basicgui2.TextSize = 24
+local basicgui3 = gui("TextLabel", basframe, "Basic", 0, BrickColor.new("Really blue").Color, UDim2.new(-0.15, 0, 0.45, 0), UDim2.new(0.45, 0, 0.35, 0))
+basicgui3.ZIndex = 2
+basicgui3.Font = "Highway"
+basicgui3.BackgroundTransparency = 0.5
+basicgui3.BorderSizePixel = 0.65
+basicgui3.TextScaled = true
+basicgui3.Text = "Max Population: 4"
+basicgui3.TextSize = 24
+
+function Lightningz(pos, pos2, radius, numParts, model, removalTime)
+	radius = radius or 0.2
+	numParts = numParts or 10
+	model = model or game.Workspace
+	local pos = pos
+	local lastpos = lastpos
+	local lv = CFrame.new(pos,pos2).lookVector
+	removalTime = 0.001
+	local dist = (pos-pos2).magnitude
+	local trans = 0
+	local color = BrickColor.new("Bright yellow")
+	local dbp = dist/numParts
+	local last = pos
+	for i = 1,numParts do
+		local p = Instance.new("Part")
+		p.FormFactor = "Custom"
+		p.Size = Vector3.new(1,1,1)
+		p.CanCollide = false
+		p.Transparency = trans
+		p.Anchored = true
+		p.BrickColor = color
+		p.Material = "Neon"
+		local x = math.random(-100,100)/100*dbp*4
+		local y = math.random(-100,100)/100*dbp*4
+		local p2 = CFrame.new(pos+lv*(i*dbp),pos2+lv)*CFrame.new(x,y,0)
+		local dist2 = (p2.p-last).magnitude
+		local mid = (p2.p+last)/2
+		local m = Instance.new("BlockMesh",p)
+		m.Scale = Vector3.new(radius,radius,dist2 + (radius/4))
+		p.CFrame = CFrame.new(mid,p2.p)
+		last = p2.p
+		p.Parent = model
+		game.Debris:AddItem(p, 0.05)
+	end
+	if model ~= game.Workspace then
+		game.Debris:AddItem(model, 0)
+	end
+end
+
+function Lightningz2(pos, pos2, radius, numParts, model, removalTime)
+	radius = radius or 0.2
+	numParts = numParts or 10
+	model = model or game.Workspace
+	local pos = pos
+	local lastpos = lastpos
+	local lv = CFrame.new(pos,pos2).lookVector
+	removalTime = 0.001
+	local dist = (pos-pos2).magnitude
+	local trans = 0
+	local color = BrickColor.new("Dark indigo")
+	local dbp = dist/numParts
+	local last = pos
+	for i = 1,numParts do
+		local p = Instance.new("Part")
+		p.FormFactor = "Custom"
+		p.Size = Vector3.new(1,1,1)
+		p.CanCollide = false
+		p.Transparency = trans
+		p.Anchored = true
+		p.BrickColor = color
+		p.Material = "Neon"
+		local x = math.random(-100,100)/100*dbp*4
+		local y = math.random(-100,100)/100*dbp*4
+		local p2 = CFrame.new(pos+lv*(i*dbp),pos2+lv)*CFrame.new(x,y,0)
+		local dist2 = (p2.p-last).magnitude
+		local mid = (p2.p+last)/2
+		local m = Instance.new("BlockMesh",p)
+		m.Scale = Vector3.new(radius,radius,dist2 + (radius/4))
+		p.CFrame = CFrame.new(mid,p2.p)
+		last = p2.p
+		p.Parent = model
+		game.Debris:AddItem(p, 0.05)
+	end
+	if model ~= game.Workspace then
+		game.Debris:AddItem(model, 0)
+	end
+end
+
+function Gunshot(pos, pos2, radius, numParts, model, removalTime)
+	radius = radius or 0.2
+	numParts = numParts or 10
+	model = model or game.Workspace
+	local pos = pos
+	local lastpos = lastpos
+	local lv = CFrame.new(pos,pos2).lookVector
+	removalTime = 0.001
+	local dist = (pos-pos2).magnitude
+	local trans = 0
+	local color = BrickColor.new("Bright yellow")
+	local dbp = dist/numParts
+	local last = pos
+	for i = 1,5 do
+		local p = Instance.new("Part")
+		p.FormFactor = "Custom"
+		p.Size = Vector3.new(1,1,1)
+		p.CanCollide = false
+		p.Transparency = trans
+		p.Anchored = true
+		p.BrickColor = color
+		p.Material = "Neon"
+		local x = math.random(-100,100)/100
+		local y = math.random(-100,100)/100
+		local p2 = CFrame.new(pos+lv*(i*dbp),pos2+lv)*CFrame.new(x,y,0)
+		local dist2 = (p2.p-last).magnitude
+		local mid = (p2.p+last)/2
+		local m = Instance.new("BlockMesh",p)
+		m.Scale = Vector3.new(radius,radius,dist2 + (radius/4))
+		p.CFrame = CFrame.new(mid,p2.p)
+		last = p2.p
+		p.Parent = model
+		game.Debris:AddItem(p, 0.05)
+	end
+	if model ~= game.Workspace then
+		game.Debris:AddItem(model, 0)
+	end
+end
+
+Music = {763483501,812080936,763483026,752883700,803643339,537303025,197414857,342562518,585370931,565208983,337474501,777567679
+	,359349817,663307468,573314737,748389784}
+Music2 = {207358216,837171666,194162931,834390668,422870202,313419853,375915857,630904863,399074275,194150930,194929297,555701779,836801158,154157312
+	,154157584,154157524,154147007,154157312}
+Wisdom = {418097928,418097747,142510109,519714246}
+Face = {113475009,112974390,168044312,93815042,246864785,192602765}
+Face2 = {82323254,70440756,840490876,179025078,55705255}
+Shirt = {878947655,484067846,473527776,377999320,473171113,190634494,137500327,108768042,576802216,805736384,519851578,65380730,224258737,277459318,
+	289034791,358039398,238100566,469527314}
+Pants = {144076759,129459076,295871033,138981718,169668949,240002705}
+
+function swait(num)
+	if num==0 or num==nil then
+		game:service'RunService'.Heartbeat:wait(0)
+	else
+		for i=0,num do
+			game:service'RunService'.Heartbeat:wait(0)
+		end
+	end
+end
+
+cf = CFrame.new
+ang = CFrame.Angles
+rd = math.rad
+
+function lerpz(joint, prop, cfrmz, alp)
+	if joint ~= nil then
+		joint[prop] = joint[prop]:lerp(cfrmz, alp)
+	end
+end
+function resetlerp(pl)
+	pl.HumanoidRootPart:findFirstChild("RootJoint").C0 = RJC0
+	pl.HumanoidRootPart:findFirstChild("RootJoint").C1 = RJC1
+	pl.Torso:findFirstChild("Neck").C0 = NC0
+	pl.Torso:findFirstChild("Neck").C1 = NC1
+	pl.Torso:findFirstChild("Right Shoulder").C0 = RSC0
+	pl.Torso:findFirstChild("Right Shoulder").C1 = RSC1
+	pl.Torso:findFirstChild("Left Shoulder").C0 = LSC0
+	pl.Torso:findFirstChild("Left Shoulder").C1 = LSC1
+	pl.Torso:findFirstChild("Right Hip").C0 = RHC0
+	pl.Torso:findFirstChild("Right Hip").C1 = RHC1
+	pl.Torso:findFirstChild("Left Hip").C0 = LHC0
+	pl.Torso:findFirstChild("Left Hip").C1 = LHC1
+end
+
+function NukeShockwaves(Size, CFramez)
+	local Shock = Instance.new("Part",game.Workspace)Shock.Transparency = 0.75 Shock.Size = Vector3.new(0.2,0.2,0.2) Shock.Anchored = true
+	Shock.CanCollide = false Shock.BrickColor = BrickColor.new("Bright orange") local SM = Instance.new("SpecialMesh",Shock) Shock.Name = "NoMoonPls"
+	SM.MeshId = "rbxassetid://20329976" SM.Scale = Vector3.new(0,5,0) Shock.CFrame = CFramez*CFrame.new(0,1,0)*CFrame.Angles(0,math.rad(math.random(-360,360)),0)
+	Spawn(function()
+		for i = 1,math.huge do
+			if Shock.Transparency >= 1 then break end
+			Shock.Transparency = Shock.Transparency + 0.0125
+			SM.Scale = SM.Scale+Vector3.new(30*Size,15*Size,30*Size)
+			Shock.CFrame = Shock.CFrame*CFrame.new(Vector3.new(0,-15,0))*CFrame.Angles(math.rad(90),0,0)
+			wait()
+		end
+	end)
+end
+
+function MeteorShower()
+	for i = 1,25 do
+		Spawn(function()
+			local P = Instance.new("Part",c)P.Size = Vector3.new(75,75,75)P.Anchored = false P.CanCollide = true
+			local M = Instance.new("SpecialMesh",P)M.MeshType = "Sphere" P.BrickColor = BrickColor.new("Brown")
+			P.CFrame = c.HumanoidRootPart.CFrame*CFrame.new(math.random(-1000,1000),math.random(4000,6000),math.random(-1000,1000))*CFrame.Angles(0,0,math.rad(-180))
+			local BV = Instance.new("BodyVelocity",P)BV.MaxForce = Vector3.new(math.huge,math.huge,math.huge)BV.Velocity = Vector3.new(0,-450,0)
+			BV.P = 1000000
+			local S = Instance.new("Sound",P)S.SoundId = "rbxassetid://728747130" S.Volume = 4 S.Looped = true S:Play()
+			hit = false
+			P.Touched:connect(function(Hit)
+				if hit == true then return end
+				if Hit.Anchored == true and Hit.Name ~= "NoMoonPls" then
+					hit = true BV.Velocity = Vector3.new(0,-5,0) P.Anchored = true
+					local S2 = Instance.new("Sound",P)S2.SoundId = "rbxassetid://211062246" S2.Volume = 10 S2:Play()
+					local S3 = Instance.new("Sound",P)S3.SoundId = "rbxassetid://133159174" S3.Volume = 10 S3:Play()
+					for i,v in pairs (m:children()) do
+						if v:findFirstChild("HumanoidRootPart")~= nil then
+							if (v.HumanoidRootPart.Position-P.Position).Magnitude >= 100 then
+								v:remove() Population = Population - 1 Deaths = Deaths + 1
+							end
+						end
+					end
+				end
+			end)
+			for i = 1,math.huge do
+				NukeShockwaves(0.3,P.CFrame*CFrame.new(Vector3.new(0,-45,0)))
+				swait()
+			end
+		end)
+	end
+end
+
+function RandomAct(pl)
+	local r = math.random(1,10)
+	local RJ = pl.HumanoidRootPart:findFirstChild("RootJoint")
+	local N = pl.Torso:findFirstChild("Neck")
+	local RS = pl.Torso:findFirstChild("Right Shoulder")
+	local LS = pl.Torso:findFirstChild("Left Shoulder")
+	local RH = pl.Torso:findFirstChild("Right Hip")
+	local LH = pl.Torso:findFirstChild("Left Hip")
+	if r == 1 then
+		for i = 1,2 do
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(-10), rd(0), rd(0)), 0.75)
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(-10), rd(0), rd(0)), 0.75)
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(165)), 0.75)
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(-10), rd(0), rd(0)), 0.75)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(-10), rd(0), rd(0)), 0.75)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			swait()
+		end
+	elseif r == 2 then
+		for i = 1,2 do
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(-10), rd(0), rd(0)), 0.75)
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(-10), rd(0), rd(0)), 0.75)
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(170)), 0.75)
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(-10), rd(0), rd(0)), 0.75)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(-10), rd(0), rd(0)), 0.75)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			swait()
+		end
+		for i = 1,2 do
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+			swait()
+		end
+	else
+		lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(180)), 1)
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	end
+end
+
+function AssassinReveal(pl)
+	local RJ = pl.HumanoidRootPart:findFirstChild("RootJoint")
+	local N = pl.Torso:findFirstChild("Neck")
+	local RS = pl.Torso:findFirstChild("Right Shoulder")
+	local LS = pl.Torso:findFirstChild("Left Shoulder")
+	local RH = pl.Torso:findFirstChild("Right Hip")
+	local LH = pl.Torso:findFirstChild("Left Hip")
+	local b = Instance.new("BoolValue",pl)b.Name = "Disabled" game.Debris:AddItem(b,1)
+	lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	wait(0.5)
+	lerpz(RJ, "C0", RJC0 * cf(0, 0, 5000) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+end
+
+function AssassinHide(pl)
+	local RJ = pl.HumanoidRootPart:findFirstChild("RootJoint")
+	local N = pl.Torso:findFirstChild("Neck")
+	local RS = pl.Torso:findFirstChild("Right Shoulder")
+	local LS = pl.Torso:findFirstChild("Left Shoulder")
+	local RH = pl.Torso:findFirstChild("Right Hip")
+	local LH = pl.Torso:findFirstChild("Left Hip")
+	lerpz(RJ, "C0", RJC0 * cf(0, 0, 5000) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+end
+
+function BatSwing(pl)
+	local RJ = pl.HumanoidRootPart:findFirstChild("RootJoint")
+	local N = pl.Torso:findFirstChild("Neck")
+	local RS = pl.Torso:findFirstChild("Right Shoulder")
+	local LS = pl.Torso:findFirstChild("Left Shoulder")
+	local RH = pl.Torso:findFirstChild("Right Hip")
+	local LH = pl.Torso:findFirstChild("Left Hip")
+	local b = Instance.new("BoolValue",pl)b.Name = "Disabled" game.Debris:AddItem(b,math.random(7,12)/10)
+	for i = 1,8 do
+		lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(50), rd(0), rd(0)), 0.75)
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(120)), 0.75)
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		swait()
+	end
+	for i = 1,4 do
+		lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(-20), rd(0), rd(0)), 0.75)
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-35)), 0.75)
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		swait()
+	end
+	for i = 1,2 do
+		lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		swait()
+	end
+end
+
+function ShootGun(pl)
+	local RJ = pl.HumanoidRootPart:findFirstChild("RootJoint")
+	local N = pl.Torso:findFirstChild("Neck")
+	local RS = pl.Torso:findFirstChild("Right Shoulder")
+	local LS = pl.Torso:findFirstChild("Left Shoulder")
+	local RH = pl.Torso:findFirstChild("Right Hip")
+	local LH = pl.Torso:findFirstChild("Left Hip")
+	for i = 1,8 do
+		lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(90)), 0.75)
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		swait()
+	end
+	for i = 1,2 do
+		lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.75)
+		swait()
+	end
+end
+
+function Dance(playah)
+
+end
+
+function BuildStructure(pl)
+	local mr = math.random(1,8)
+	if mr == 1 then
+		local P = Instance.new("Part",mtwo)P.Size = Vector3.new(25,25,3)P.Material = "Brick" P.BrickColor = BrickColor.new("Dusty Rose")P.Anchored = true
+		P.CFrame = pl.HumanoidRootPart.CFrame*CFrame.new(0,-12.5,-4)
+		Spawn(function()
+			for i = 1,20 do
+				P.CFrame = P.CFrame*CFrame.new(0,0.625,0)
+				swait()
+			end
+		end)
+	elseif mr == 2 then
+		local P = Instance.new("Part",mtwo)P.Size = Vector3.new(4,55,2)P.Anchored = true
+		P.CFrame = pl.HumanoidRootPart.CFrame*CFrame.new(0,-22.5,-4)
+		local M = Instance.new("SpecialMesh",P)M.Scale = Vector3.new(0.4,0.4,0.4)M.Offset = Vector3.new(13,0,0) M.MeshId = "rbxassetid://498788302"
+		M.TextureId = "rbxassetid://498788336"
+		Spawn(function()
+			for i = 1,20 do
+				P.CFrame = P.CFrame*CFrame.new(0,2.25,0)
+				swait()
+			end
+		end)
+	elseif mr == 3 then
+		local P = Instance.new("Part",mtwo)P.Size = Vector3.new(6, 2, 6)P.Anchored = true
+		P.CFrame = pl.HumanoidRootPart.CFrame*CFrame.new(0,-1,-3)
+		local M = Instance.new("SpecialMesh",P)M.Scale = Vector3.new(2.5,2.5,2.5)M.Offset = Vector3.new(0,0,0) M.MeshId = "rbxassetid://431822418"
+		M.TextureId = "rbxassetid://431822423"
+		Spawn(function()
+			for i = 1,20 do
+				P.CFrame = P.CFrame*CFrame.new(0,0.0125,0)
+				swait()
+			end
+		end)
+	else
+		local mr2 = math.random(1,3) 
+		if mr2 == 1 then
+			local P = Instance.new("Part",mtwo)P.Size = Vector3.new(32, 48, 32)P.Anchored = true
+			P.CFrame = pl.HumanoidRootPart.CFrame*CFrame.new(0,-24,-36)
+			local M = Instance.new("SpecialMesh",P)M.Scale = Vector3.new(8,8,8)M.Offset = Vector3.new(0,0,0) M.MeshId = "rbxassetid://430319084"
+			M.TextureId = "rbxassetid://430319142" MaxPopulation = MaxPopulation + 5
+			Spawn(function()
+				for i = 1,20 do
+					P.CFrame = P.CFrame*CFrame.new(0,2.2,0)
+					swait()
+				end
+			end)
+		end
+	end
+end
+
+function ZombieArms(pl)
+	pl.Humanoid.MaxHealth = 1000 swait() pl.Humanoid.Health = 1000
+	local RJ = pl.HumanoidRootPart:findFirstChild("RootJoint")
+	local N = pl.Torso:findFirstChild("Neck")
+	local RS = pl.Torso:findFirstChild("Right Shoulder")
+	local LS = pl.Torso:findFirstChild("Left Shoulder")
+	local RH = pl.Torso:findFirstChild("Right Hip")
+	local LH = pl.Torso:findFirstChild("Left Hip")
+	lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(15), rd(0), rd(0)), 1)
+	lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(90)), 1)
+	lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(-90)), 1)
+	lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+end
+function SuperAttack(pl,em)
+	local RJ = pl.HumanoidRootPart:findFirstChild("RootJoint")
+	local N = pl.Torso:findFirstChild("Neck")
+	local RS = pl.Torso:findFirstChild("Right Shoulder")
+	local LS = pl.Torso:findFirstChild("Left Shoulder")
+	local RH = pl.Torso:findFirstChild("Right Hip")
+	local LH = pl.Torso:findFirstChild("Left Hip")
+	local b = Instance.new("BoolValue",pl)b.Name = "Disabled" game.Debris:AddItem(b,math.random(16,26)/10)
+	Spawn(function()
+		for i = 1,16 do
+			lerpz(RJ, "C0", RJC0 * cf(0, 0, 30) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 0.25)
+			swait()
+		end
+		ragplayer(em)
+		lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		for i = 1,5 do
+			Gunshot(pl.Torso.Position, em.Torso.Position, 0.5, 8)
+		end
+		pl.HumanoidRootPart.CFrame = em.HumanoidRootPart.CFrame
+		local GS = Instance.new("Sound",pl.Head)GS.Volume = 4 GS.SoundId = "rbxassetid://779129548" GS:Play()
+		if em.Humanoid.Health <= 250 then
+			ragplayer(em) Population = Population - 1 Deaths = Deaths + 1
+		else
+			em.Humanoid.Health = em.Humanoid.Health - 250
+		end
+	end)
+end
+
+function Resize(Size,pl)
+	local LA = pl["Left Arm"]
+	local RA = pl["Right Arm"]
+	local LL = pl["Left Leg"]
+	local RL = pl["Right Leg"]
+	local HR = pl["HumanoidRootPart"]
+	local H = pl["Head"]
+	local T = pl["Torso"]
+	local RJ = pl.HumanoidRootPart:findFirstChild("RootJoint")
+	local N = pl.Torso:findFirstChild("Neck")
+	local RS = pl.Torso:findFirstChild("Right Shoulder")
+	local LS = pl.Torso:findFirstChild("Left Shoulder")
+	local RH = pl.Torso:findFirstChild("Right Hip")
+	local LH = pl.Torso:findFirstChild("Left Hip")
+	if Size == 1 then
+		RJ.Parent = nil N.Parent = nil RS.Parent = nil LS.Parent = nil RH.Parent = nil LH.Parent = nil
+		LA.Size = Vector3.new(0.6,1.2,0.6)RA.Size = Vector3.new(0.6,1.2,0.6)HR.Size = Vector3.new(1.2,1.2,0.6) pl.Humanoid.HipHeight = -0.1
+		LL.Size = Vector3.new(0.6,1.2,0.6)RL.Size = Vector3.new(0.6,1.2,0.6)H.Size = Vector3.new(2,1,1)T.Size = Vector3.new(1.2,1.2,0.6)
+		RJ.Parent = pl.HumanoidRootPart N.Parent = T RS.Parent = T LS.Parent = T RH.Parent = T LH.Parent = T
+		lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(N, "C0", NC0 * cf(0, 0, -0.3) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RS, "C0", RSC0 * cf(0, 0, -0.6) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LS, "C0", LSC0 * cf(0, 0, -0.6) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RH, "C0", RHC0 * cf(0, 0.8, -0.2) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LH, "C0", LHC0 * cf(0, 0.8, -0.2) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	else
+		RJ.Parent = nil N.Parent = nil RS.Parent = nil LS.Parent = nil RH.Parent = nil LH.Parent = nil
+		LA.Size = Vector3.new(1,2,1)RA.Size = Vector3.new(1,2,1)HR.Size = Vector3.new(2,2,1) pl.Humanoid.HipHeight = 0
+		LL.Size = Vector3.new(1,2,1)RL.Size = Vector3.new(1,2,1)H.Size = Vector3.new(2,1,1)T.Size = Vector3.new(2,2,1)
+		RJ.Parent = pl.HumanoidRootPart N.Parent = T RS.Parent = T LS.Parent = T RH.Parent = T LH.Parent = T
+		lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+	end
+end
+
+function Suicide(pl)
+	pl.Parent = game.Workspace
+	local RJ = pl.HumanoidRootPart:findFirstChild("RootJoint")
+	local N = pl.Torso:findFirstChild("Neck")
+	local RS = pl.Torso:findFirstChild("Right Shoulder")
+	local LS = pl.Torso:findFirstChild("Left Shoulder")
+	local RH = pl.Torso:findFirstChild("Right Hip")
+	local LH = pl.Torso:findFirstChild("Left Hip")
+	local r = math.random(1,2)
+	if r == 1 then
+		local wep = Instance.new("Part",pl)wep.Size = Vector3.new(0.2,0.2,0.2)local MH = Instance.new("SpecialMesh",wep)MH.MeshId = "rbxassetid://623102664"
+		local WH = Instance.new("Weld",pl["Right Arm"])WH.Part0 = pl["Right Arm"] WH.Part1 = wep WH.C0 = CFrame.new(0,-1.5,0) MH.TextureId = "rbxassetid://623102879"
+		MH.Scale = Vector3.new(0.01,0.01,0.01)WH.C0 = WH.C0*CFrame.Angles(0,math.rad(90),0)
+		lerpz(RJ, "C0", RJC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(N, "C0", NC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RS, "C0", RSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(180)), 1)
+		lerpz(RS, "C1", RSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LS, "C0", LSC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LS, "C1", LSC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RH, "C0", RHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(RH, "C1", RHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LH, "C0", LHC0 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		lerpz(LH, "C1", LHC1 * cf(0, 0, 0) * ang(rd(0), rd(0), rd(0)), 1)
+		wait(0.1)
+		ragplayer(pl) pl.Head.Transparency = 1 local GS = Instance.new("Sound",pl.Head)GS.Volume = 10 GS.SoundId = "rbxassetid://801978264" GS:Play()
+		pl.Head:findFirstChild("face"):remove()
+	else
+		ragplayer(pl) local GS = Instance.new("Sound",pl.Head)GS.Volume = 10 GS.SoundId = "rbxassetid://356911785" GS:Play()
+		pl.Head:findFirstChild("face"):remove()
+	end
+end
+function ragplayer(cactus)
+	cactus.Humanoid.PlatformStand = true cactus:findFirstChild("Humanoid").Health = 0.01
+	if cactus["Right Arm"]~=nil and cactus.Torso:FindFirstChild("Right Shoulder") then
+		cactus.Torso:FindFirstChild("Right Shoulder"):Destroy()
+		makegloo(cactus.Torso, RSC0, RSC1, cactus.Torso, cactus["Right Arm"], "Right Shoulder")
+		maketouchy(cactus["Right Arm"], cactus["Right Arm"], CFrame.new(0, 0.5, 0))
+	end
+	if cactus["Left Arm"]~=nil and cactus.Torso:FindFirstChild("Left Shoulder") then
+		cactus.Torso:FindFirstChild("Left Shoulder"):Destroy()
+		makegloo(cactus.Torso, LSC0, LSC1, cactus.Torso, cactus["Left Arm"], "Left Shoulder")
+		maketouchy(cactus["Left Arm"], cactus["Left Arm"], CFrame.new(0, 0.5, 0))
+	end
+	if cactus["Right Leg"]~=nil and cactus.Torso:FindFirstChild("Right Hip") then
+		cactus.Torso:FindFirstChild("Right Hip"):Destroy()
+		makegloo(cactus.Torso, RHC0, RHC1, cactus.Torso, cactus["Right Leg"], "Right Hip")
+		maketouchy(cactus["Right Leg"], cactus["Right Leg"], CFrame.new(0, 0.5, 0))
+	end
+	if cactus["Left Leg"]~=nil and cactus.Torso:FindFirstChild("Left Hip") then
+		cactus.Torso:FindFirstChild("Left Hip"):Destroy()
+		makegloo(cactus.Torso, LHC0, LHC1, cactus.Torso, cactus["Left Leg"], "Left Hip")
+		maketouchy(cactus["Left Leg"], cactus["Left Leg"], CFrame.new(0, 0.5, 0))
+	end
+	cactus.Parent = game.Workspace game.Debris:AddItem(cactus,10)
+end
+function makegloo(paren, co, ci, parto, parti, nam) local gloo = Instance.new("Glue") gloo.Name = nam gloo.C0 = co gloo.C1 = ci gloo.Part0 = parto gloo.Part1 = parti gloo.Parent = paren end
+
+function maketouchy(parent, limb, cframe) local pr = Instance.new("Part") pr.Name = "touchy" pr.Size = Vector3.new(1, 1, 1) pr.Transparency = 1 pr.CustomPhysicalProperties = PhysicalProperties.new(0.55, 0.3, 0.5) pr.CanCollide = true pr.Anchored = false pr.Parent = parent local w = Instance.new("Weld") w.Part0 = pr w.Part1 = limb w.C0 = cframe w.Parent = pr end
+
+
+EventTrigger = false
+
+--[[mouse.KeyDown:connect(function(key)
+if key == "v" then
+EventTrigger = true
+end
+end)]]
+
+local p = c:clone() p.HumanoidRootPart.CFrame = c.HumanoidRootPart.CFrame p.Name = "Alpha"..HumanoidName
+p.Head:findFirstChild("face").Texture = "rbxassetid://423525986" p.Humanoid.WalkSpeed = 6
+-- Check if the character has a Shirt and apply the template
+if p:FindFirstChild("Shirt") then
+	p:FindFirstChild("Shirt").ShirtTemplate = "rbxassetid://182145502"
+end
+
+-- Check if the character has Pants and apply the template
+if p:FindFirstChild("Pants") then
+	p:FindFirstChild("Pants").PantsTemplate = "rbxassetid://182145710"
+end
+p.Humanoid.MaxHealth = 500 p.Humanoid.Health = 500
+wait()
+for i,v in pairs(p:children()) do
+	if v.ClassName == "Accessory" then
+		p.Humanoid:AddAccessory(v)
+	end
+end
+p.Parent = m
+TPopulation = 4
+Population = 4
+MaxPopulation = 25
+CreatedHuman = 0
+Deaths = 0
+while true do
+	swait()
+	c.Humanoid.MaxHealth = c.Humanoid.MaxHealth*2
+	c.Humanoid.Health = c.Humanoid.MaxHealth
+	local rzzz = math.random(1,100000)
+	if rzzz == 10000 or EventTrigger == true then EventTrigger = false
+		local rae = math.random(1,1)
+		if rae == 1 then 
+			print("Zombie Apocalypse")
+			local GS = Instance.new("Sound",game.Workspace)GS.Volume = 1 GS.SoundId = "rbxassetid://301700586" GS:Play()
+			for i,v in pairs (m:children()) do
+				local random = math.random(1,4)
+				if random == 1 and v.Name ~= "Alpha"..HumanoidName and v.Name ~= "Dark"..HumanoidName then
+					v.Head:findFirstChild("face").Texture = "rbxassetid://"..FaceId2 v.Name = "Zombie"..HumanoidName v.Humanoid.WalkSpeed = 12
+					local b = Instance.new("ObjectValue",v)b.Name = "Target" b.Value = nil ZombieArms(v)
+				end
+			end
+		elseif rae == 2 then
+			MeteorShower()
+		end
+	end
+	for i,v in pairs (m:children()) do
+		local m2 = math.random(1,15000)
+		if v:findFirstChild("Head")== nil or v:findFirstChild("HumanoidRootPart")== nil or v.Humanoid.Health <= 0 then
+			v.Parent = game.Workspace game.Debris:AddItem(v,2) Deaths = Deaths + 1 Population = Population - 1
+		elseif v:findFirstChild("HumanoidRootPart")~= nil and v:findFirstChild("Head")~= nil and v.Humanoid.Health > 0 then
+			if v:findFirstChild("Humanoid").Sit == true or v:findFirstChild("Humanoid").PlatformStand == true then
+				v:findFirstChild("Humanoid").Jump = true
+			end
+			if v:findFirstChild("Disabled")== nil then
+				if v.Name == "Suicidal"..HumanoidName then
+					if v:findFirstChild("DeathCount")~= nil then
+						if v:findFirstChild("DeathCount").Value > 0 then
+							v:findFirstChild("DeathCount").Value = v:findFirstChild("DeathCount").Value - 5
+						else v.Parent = game.Workspace
+							Suicide(v) Population = Population - 1 Deaths = Deaths + 1
+						end
+					end
+				elseif v.Name == "Violent"..HumanoidName or v.Name == "Genocide"..HumanoidName or v.Name == "Dark"..HumanoidName or v.Name == "Zombie"..HumanoidName or v.Name == "Assassin"..HumanoidName then
+					if m2 > 7000 and m2 <= 7002 and v.Name == "Violent"..HumanoidName then
+						v.Humanoid.WalkSpeed = 8 v:findFirstChild("Bat"):remove() v.Name = "Vigilante"..HumanoidName
+						local wep = Instance.new("Part",v)wep.Size = Vector3.new(0.2,0.2,0.2)local MH = Instance.new("SpecialMesh",wep)MH.MeshId = "rbxassetid://623102664" wep.Name = "Gun"
+						local W2H = Instance.new("Weld",v["Right Arm"])W2H.Part0 = v["Right Arm"] W2H.Part1 = wep W2H.C0 = CFrame.new(0,-1.5,0) MH.TextureId = "rbxassetid://623102879"
+						MH.Scale = Vector3.new(0.01,0.01,0.01)W2H.C0 = W2H.C0*CFrame.Angles(0,math.rad(90),math.rad(-90))
+						local wep = Instance.new("Part",v)wep.Size = Vector3.new(0.2,0.2,0.2)local MH = Instance.new("SpecialMesh",wep)MH.MeshId = "rbxassetid://623102664" wep.Name = "Gun2"
+						local W2H = Instance.new("Weld",v["Left Arm"])W2H.Part0 = v["Left Arm"] W2H.Part1 = wep W2H.C0 = CFrame.new(0,-1.5,0) MH.TextureId = "rbxassetid://623102879"
+						MH.Scale = Vector3.new(0.01,0.01,0.01)W2H.C0 = W2H.C0*CFrame.Angles(0,math.rad(90),math.rad(-90))
+					end
+					if v:findFirstChild("Target") ~= nil and v:findFirstChild("Target").Value == nil then
+						local rz = math.random(1,Population)
+						for i,v2 in pairs (m:children()) do
+							if v2 ~= v or v.Name == "Zombie"..HumanoidName and v2.Name ~= "Zombie"..HumanoidName then
+								v:findFirstChild("Target").Value = v2
+								if rz == i then break end
+							end
+						end
+					else
+						if ((v:findFirstChild("Target").Value):findFirstChild("HumanoidRootPart"))~= nil and v.HumanoidRootPart ~= nil and ((v:findFirstChild("Target").Value):findFirstChild("HumanoidRootPart").Position-v.HumanoidRootPart.Position).magnitude <= 6 and (v:findFirstChild("Target").Value):findFirstChild("Humanoid").Health > 1 then
+							if v.Name == "Zombie"..HumanoidName then
+								local b = Instance.new("ObjectValue",v)b.Name = "Target" b.Value = nil
+								(v:findFirstChild("Target").Value).Name = "Zombie"..HumanoidName
+								ZombieArms(v)
+								Deaths = Deaths + 1  (v:findFirstChild("Target").Value).Humanoid.WalkSpeed = 12
+								local rz = math.random(1,Population) Population = Population - 1
+								for i,v2 in pairs (m:children()) do
+									if v2 ~= v or v.Name == "Zombie"..HumanoidName and v2.Name ~= "Zombie"..HumanoidName then
+										v:findFirstChild("Target").Value = v2
+										if rz == i then break end
+									end
+								end
+							elseif v.Name == "Assassin"..HumanoidName then
+								ragplayer((v:findFirstChild("Target").Value))
+								AssassinReveal(v)
+								Deaths = Deaths + 1 Population = Population - 1
+								local rz = math.random(1,Population)
+								for i,v2 in pairs (m:children()) do
+									if v2 ~= v or v.Name == "Zombie"..HumanoidName and v2.Name ~= "Zombie"..HumanoidName then
+										v:findFirstChild("Target").Value = v2
+										if rz == i then break end
+									end
+								end
+							else
+								if (v:findFirstChild("Target").Value).Humanoid.Health <= 15 then
+									ragplayer((v:findFirstChild("Target").Value))
+									Deaths = Deaths + 1 Population = Population - 1
+									local rz = math.random(1,Population)
+									for i,v2 in pairs (m:children()) do
+										if v2 ~= v or v.Name == "Zombie"..HumanoidName and v2.Name ~= "Zombie"..HumanoidName then
+											v:findFirstChild("Target").Value = v2
+											if rz == i then break end
+										end
+									end
+								else
+									(v:findFirstChild("Target").Value).Humanoid.Health = (v:findFirstChild("Target").Value).Humanoid.Health - 15
+								end
+								BatSwing(v)
+								local GS = Instance.new("Sound",v.Head)GS.Volume = 4 GS.SoundId = "rbxassetid://386946017" GS:Play()
+							end
+						elseif v:findFirstChild("Target").Value ~= nil and (v:findFirstChild("Target").Value):findFirstChild("HumanoidRootPart") ~= nil then
+							v.Humanoid.WalkToPoint = (v:findFirstChild("Target").Value):findFirstChild("HumanoidRootPart").Position
+						end
+
+						if v.Name == "Dark"..HumanoidName then
+							if v:findFirstChild("Kills").Value >= 250 then
+								local p2 = p:clone()p2.Parent = m p2.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame p2.Name = "Omega"..HumanoidName
+							end
+							for i,v2 in pairs (m:children()) do
+								if v2:findFirstChild("HumanoidRootPart")~= nil and v:findFirstChild("HumanoidRootPart")~= nil and v2 ~= v then
+									if (v2.Torso.Position-v.Torso.Position).magnitude <= math.random(48,50) then
+										for i = 1,4 do
+											Lightningz2(v2.HumanoidRootPart.Position, v.HumanoidRootPart.Position, 0.3, 4)
+											swait()
+										end
+										local GS = Instance.new("Sound",v.Head)GS.Volume = 3 GS.SoundId = "rbxassetid://821439273" GS:Play()
+										ragplayer(v2) Deaths = Deaths + 1 Population = Population - 1 v:findFirstChild("Kills").Value = v:findFirstChild("Kills").Value + 1
+									end
+								end
+							end
+						end
+						if v.Name == "Genocide"..HumanoidName then
+							if v:findFirstChild("Kills").Value >= 20 then
+								v.Name = "Dark"..HumanoidName v.Head:findFirstChild("face").Texture = "rbxassetid://"
+								v.Humanoid.MaxHealth = 2500 swait() v.Humanoid.Health = 2500
+								for i,v in pairs (v:children()) do
+									if v.ClassName == "Part" then
+										if v.Name ~= "HumanoidRootPart" then
+											v.Material = "Sand" v.BrickColor = BrickColor.new("Really black")
+											if v.Name ~= "Head" then
+												local M = Instance.new("SpecialMesh",v)M.MeshId = "rbxassetid://9856898" M.TextureId = "rbxassetid://64619306"
+												M.Scale = Vector3.new(v.Size.X*2,v.Size.Y*2,v.Size.Z*2)
+											end
+										end
+									end
+								end
+							end
+						end
+						if v.Name == "Genocide"..HumanoidName  and v:findFirstChild("GunCoolDown")== nil then
+							for i,v2 in pairs (m:children()) do
+								if v2 ~= v then
+									if v2:findFirstChild("HumanoidRootPart")~=nil and v:findFirstChild("HumanoidRootPart")~=nil and(v2.Torso.Position-v.Torso.Position).magnitude <= math.random(15,40) then
+										Gunshot(v2.HumanoidRootPart.Position, v.HumanoidRootPart.Position, 0.1, 10) ShootGun(v)
+										local GS = Instance.new("Sound",v.Head)GS.Volume = 4 GS.SoundId = "rbxassetid://356911785" GS:Play()
+										local b = Instance.new("BoolValue",v)b.Name = "GunCoolDown" game.Debris:AddItem(b,math.random(3,8)/10)
+										if v2.Humanoid.Health <= 125 then
+											Gunshot(v2.HumanoidRootPart.Position, v.HumanoidRootPart.Position, 0.1, 10) ShootGun(v)
+											ragplayer(v2) Deaths = Deaths + 1 Population = Population - 1 v:findFirstChild("Kills").Value = v:findFirstChild("Kills").Value + 1
+										else
+											v2.Humanoid.Health = v2.Humanoid.Health - 125
+											Gunshot(v2.HumanoidRootPart.Position, v.HumanoidRootPart.Position, 0.1, 10) ShootGun(v)
+										end
+									end
+								end
+							end
+						end
+					end
+				else
+					MusicId = Music[math.random(1,#Music)]
+					MusicId2 = Music2[math.random(1,#Music2)]
+					FaceId = Face[math.random(1,#Face)]
+					FaceId2 = Face2[math.random(1,#Face2)]
+					WisdomId  = Wisdom[math.random(1,#Wisdom)]
+					ShirtId  = Shirt[math.random(1,#Shirt)]
+					PantsId  = Pants[math.random(1,#Pants)]
+					if CreatedHuman <= 2 then CreatedHuman = CreatedHuman + 1
+						local p2 = p:clone() p2.HumanoidRootPart.CFrame = p.HumanoidRootPart.CFrame*CFrame.new(math.random(-75,75),0,math.random(-75,75))
+						-- Установка одежды по ID
+						local shirt = p2:FindFirstChild("Shirt")
+						if shirt then
+							shirt.ShirtTemplate = "rbxassetid://" .. ShirtId
+						end
+
+						local pants = p2:FindFirstChild("Pants")
+						if pants then
+							pants.PantsTemplate = "rbxassetid://" .. PantsId
+						end
+
+						-- Установка текстуры лица
+						local face = p2.Head:FindFirstChild("face")
+						if face then
+							face.Texture = "rbxassetid://" .. FaceId2
+						end
+
+						-- Переименование и установка скорости
+						p2.Name = "Human"
+						p2.Humanoid.WalkSpeed = 12
+
+						-- Установка родителя
+						p2.Parent = m
+
+						-- Повторная настройка (возможно, для другого состояния)
+						local face2 = p2.Head:FindFirstChild("face")
+						if face2 then
+							face2.Texture = "rbxassetid://" -- ⚠️ Здесь отсутствует ID — нужно указать!
+						end
+
+						p2.Name = "Builder" .. HumanoidName
+						p2.Humanoid.WalkSpeed = 16
+
+						-- Установка фиксированных ID одежды
+						local shirt2 = p2:FindFirstChild("Shirt")
+						if shirt2 then
+							shirt2.ShirtTemplate = "rbxassetid://768629253"
+						end
+
+						local pants2 = p2:FindFirstChild("Pants")
+						if pants2 then
+							pants2.PantsTemplate = "rbxassetid://295871033"
+						end
+						local hat = Instance.new("Part",p2)hat.Size = Vector3.new(0.2,0.2,0.2)local MH = Instance.new("SpecialMesh",hat)MH.MeshId = "rbxassetid://163124435"
+						local WH = Instance.new("Weld",p2.Head)WH.Part0 = p2.Head WH.Part1 = hat WH.C0 = CFrame.new(0,0.5,-0.06125) MH.TextureId = "rbxassetid://177258954"
+						MH.Scale = Vector3.new(1.05,1.05,1.05)
+					elseif CreatedHuman <= 4 then CreatedHuman = CreatedHuman + 1
+						local p2 = p:clone() p2.HumanoidRootPart.CFrame = p.HumanoidRootPart.CFrame*CFrame.new(math.random(-75,75),0,math.random(-75,75))
+						-- Установка одежды
+						local shirt = p2:FindFirstChild("Shirt")
+						if shirt then
+							shirt.ShirtTemplate = "rbxassetid://" .. ShirtId
+						end
+
+						local pants = p2:FindFirstChild("Pants")
+						if pants then
+							pants.PantsTemplate = "rbxassetid://" .. PantsId
+						end
+
+						-- Установка текстуры лица
+						local face = p2.Head:FindFirstChild("face")
+						if face then
+							face.Texture = "rbxassetid://" .. FaceId2
+						end
+
+
+					end
+					if v.Name == "Police"..HumanoidName then
+						for i,v2 in pairs (m:children()) do
+							if v2.Name == "Violent"..HumanoidName or v2.Name == "Genocide"..HumanoidName or v2.Name == "Dark"..HumanoidName or v2.Name == "Assassin"..HumanoidName or v2.Name == "Zombie"..HumanoidName then
+								if v2:findFirstChild("HumanoidRootPart")~= nil and v:findFirstChild("GunCoolDown")== nil then
+									if (v2.Torso.Position-v.Torso.Position).magnitude <= 40 then
+										local miss = nil
+										if v2.Name == "Genocide"..HumanoidName then
+											miss = math.random(1,25)
+										elseif v2.Name == "Dark"..HumanoidName then
+											miss = math.random(1,1000)
+										else
+											miss = math.random(1,5)		
+										end
+										local GS = Instance.new("Sound",v.Head)GS.Volume = 4 GS.SoundId = "rbxassetid://356911785" GS:Play()
+										local b = Instance.new("BoolValue",v)b.Name = "GunCoolDown" game.Debris:AddItem(b,math.random(3,8)/10)
+										if miss == 1 then
+											if v2.Humanoid.Health <= 35 then
+												Gunshot(v2.HumanoidRootPart.Position, v.HumanoidRootPart.Position, 0.1, 10) ShootGun(v)
+												ragplayer(v2) Deaths = Deaths + 1 Population = Population - 1
+											else
+												v2.Humanoid.Health = v2.Humanoid.Health - 35
+												Gunshot(v2.HumanoidRootPart.Position, v.HumanoidRootPart.Position, 0.1, 10) ShootGun(v)
+											end
+										else
+											Gunshot(v2.HumanoidRootPart.Position+Vector3.new(math.random(-15,15),math.random(-15,15),math.random(-15,15)), v.HumanoidRootPart.Position, 0.1, 10) ShootGun(v)
+										end
+									end
+								end
+							end
+						end
+					end
+					if v.Name == "Vigilante"..HumanoidName then
+						for i,v2 in pairs (m:children()) do
+							if v2.Name == "Violent"..HumanoidName or v2.Name == "Genocide"..HumanoidName or v2.Name == "Dark"..HumanoidName and v:findFirstChild("GunCoolDown")== nil then
+								if (v2.Torso.Position-v.Torso.Position).magnitude <= 40 then
+									local miss = nil
+									if v2.Name == "Genocide"..HumanoidName then
+										miss = math.random(1,12)
+									elseif v2.Name == "Dark"..HumanoidName then
+										miss = math.random(1,500)
+									else
+										miss = math.random(1,2)		
+									end
+									local GS = Instance.new("Sound",v.Head)GS.Volume = 4 GS.SoundId = "rbxassetid://356911785" GS:Play()
+									local b = Instance.new("BoolValue",v)b.Name = "GunCoolDown" game.Debris:AddItem(b,math.random(1,5)/10)
+									if miss == 1 then
+										Gunshot(v2.HumanoidRootPart.Position, v.HumanoidRootPart.Position, 0.1, 10) ShootGun(v)
+										ragplayer(v2) Deaths = Deaths + 1 Population = Population - 1
+									else
+										Gunshot(v2.HumanoidRootPart.Position+Vector3.new(math.random(-15,15),math.random(-15,15),math.random(-15,15)), v.HumanoidRootPart.Position, 0.1, 10) ShootGun(v)
+									end
+								end
+							end
+						end
+					end
+					if v.Name == "Super"..HumanoidName then
+						if v:findFirstChild("Humanoid") ~= nil then
+							v.Humanoid.Health = v.Humanoid.Health + 5
+						end
+						for i,v2 in pairs (m:children()) do
+							if v2.Name == "Violent"..HumanoidName or v2.Name == "Genocide"..HumanoidName or v2.Name == "Dark"..HumanoidName or v2.Name == "Zombie"..HumanoidName or v2.Name == "Assassin"..HumanoidName then
+								if v2:findFirstChild("HumanoidRootPart")~= nil and v:findFirstChild("HumanoidRootPart")~= nil then
+									if (v2.Torso.Position-v.Torso.Position).magnitude <= 150 then
+										SuperAttack(v,v2)
+										Deaths = Deaths + 1 Population = Population - 1
+									end
+								end
+							end
+						end
+					end
+					if v.Name == "Alpha"..HumanoidName then
+						if v:findFirstChild("Humanoid") ~= nil then
+							v.Humanoid.Health = v.Humanoid.Health + 5
+						end
+						for i,v2 in pairs (m:children()) do
+							if v2.Name == "Violent"..HumanoidName or v2.Name == "Genocide"..HumanoidName or v2.Name == "Dark"..HumanoidName or v2.Name == "Zombie"..HumanoidName then
+								if v2:findFirstChild("HumanoidRootPart")~= nil and v:findFirstChild("HumanoidRootPart")~= nil then
+									if (v2.Torso.Position-v.Torso.Position).magnitude <= 75 then
+										for i = 1,4 do
+											Lightningz(v2.HumanoidRootPart.Position, v.HumanoidRootPart.Position, 0.3, 4)
+											swait()
+										end
+										local GS = Instance.new("Sound",v.Head)GS.Volume = 4 GS.SoundId = "rbxassetid://821439273" GS:Play()
+										ragplayer(v2) Deaths = Deaths + 1 Population = Population - 1
+									end
+								end
+							end
+						end
+					end
+					if v.Name == "Builder"..HumanoidName then
+						local rz = math.random(1,2500)
+						if rz == 1 then
+							BuildStructure(v)
+						end
+					end
+					if m2 > 5000 and m2 <= 5001 and v.Name == "Human" then
+						v.Head:findFirstChild("face").Texture = "rbxassetid://60501076" v.Name = "Fast"..HumanoidName v.Humanoid.WalkSpeed = 200
+						local hit = false
+						v.HumanoidRootPart.Touched:connect(function()
+							if hit == true then return end hit = true
+							ragplayer(v) Deaths = Deaths + 1 Population = Population - 1
+							local GS = Instance.new("Sound",v.Head)GS.Volume = 4 GS.SoundId = "rbxassetid://386946017" GS:Play()
+						end)
+					end
+					if m2 > 3043 and m2 <= 3044 and v.Name == "Educated"..HumanoidName then
+						v.Name = "Assassin"..HumanoidName AssassinHide(v) local b = Instance.new("ObjectValue",v)b.Name = "Target" b.Value = nil
+					end
+					if m2 == 5003 and v.Name == "Little"..HumanoidName then
+						local r = math.random(1,3)
+						if r == 1 then
+							v.Name = "Super Little"..HumanoidName
+						end
+					end
+					if m2 > 4006 and m2 <= 4007 and v.Name == "Human" then
+						v.Name = "Educated"..HumanoidName
+					end
+					if m2 > 5000 and m2 <= 5001 and v.Name == "Little"..HumanoidName then
+						v.Head:findFirstChild("face").Texture = "rbxassetid://60501076" v.Name = "Hyper"..HumanoidName v.Humanoid.WalkSpeed = 200
+						local hit = false
+						v.HumanoidRootPart.Touched:connect(function()
+							if hit == true then return end hit = true
+							ragplayer(v) Deaths = Deaths + 1 Population = Population - 1
+							local GS = Instance.new("Sound",v.Head)GS.Volume = 4 GS.SoundId = "rbxassetid://386946017" GS:Play()
+						end)
+					end
+					if m2 > 7000 and m2 <= 7001 and v.Name == "Human" then
+						local b = Instance.new("IntValue",v)b.Name = "DeathCount" b.Value = 1200 v.Humanoid.WalkSpeed = 0 v.Name = "Suicidal"..HumanoidName
+					end
+					if m2 > 9000 and m2 <= 9001 and v.Name == "Human" then
+						v.Head:findFirstChild("face").Texture = "rbxassetid://"..FaceId v.Name = "Annoying"..HumanoidName
+					end
+					if m2 >= 5004 and m2 < 5007 and v.Name == "Human" then
+						local rz = math.random(1,3)
+						if rz == 1 then
+							v.Head:findFirstChild("face").Texture = "rbxassetid://" v.Name = "Builder"..HumanoidName v.Humanoid.WalkSpeed = 16
+							local shirt = v:FindFirstChild("Shirt")
+							if shirt then
+								shirt.ShirtTemplate = "rbxassetid://768629253"
+							end
+
+							local pants = v:FindFirstChild("Pants")
+							if pants then
+								pants.PantsTemplate = "rbxassetid://295871033"
+							end
+							local hat = Instance.new("Part",v)hat.Name = "Hat" hat.Size = Vector3.new(0.2,0.2,0.2)local MH = Instance.new("SpecialMesh",hat)MH.MeshId = "rbxassetid://163124435"
+							local WH = Instance.new("Weld",v.Head)WH.Part0 = v.Head WH.Part1 = hat WH.C0 = CFrame.new(0,0.5,-0.06125) MH.TextureId = "rbxassetid://177258954"
+							MH.Scale = Vector3.new(1.05,1.05,1.05)
+						end
+					end
+					if v.Name == "Little"..HumanoidName or v.Name == "Super Little"..HumanoidName then
+						if v:findFirstChild("Age") ~= nil then
+							if v:findFirstChild("Age").Value >= 1000 then
+								if v.Name == "Super Little"..HumanoidName then
+									Resize(0,v) v.Name = "Super"..HumanoidName
+									v.Humanoid.MaxHealth = 150 swait() v.Humanoid.Health = 150
+								else
+									Resize(0,v) v.Name = "Human"
+									v.Humanoid.MaxHealth = 50 swait() v.Humanoid.Health = 50
+								end
+							else
+								v:findFirstChild("Age").Value = v:findFirstChild("Age").Value + 1
+							end
+						end
+					end
+					if m2 >= 5010 and m2 < 5011 then
+						--RandomAct(v)
+					end
+					if m2 >= 5008 and m2 < 5009 and v.Name == "Human" then
+						local rz = math.random(1,3)
+						if rz == 1 then
+							v.Head:findFirstChild("face").Texture = "rbxassetid://299486119" v.Name = "Police"..HumanoidName v.Humanoid.WalkSpeed = 16
+							v:findFirstChild("Shirt").ShirtTemplate = "rbxassetid://1972067"
+							v:findFirstChild("Pants").PantsTemplate = "rbxassetid://1960214"
+							local hat = Instance.new("Part",v)hat.Size = Vector3.new(0.2,0.2,0.2)local MH = Instance.new("SpecialMesh",hat)MH.MeshId = "rbxassetid://1028788"
+							local WH = Instance.new("Weld",v.Head)WH.Part0 = v.Head WH.Part1 = hat WH.C0 = CFrame.new(0,0.5,0) MH.TextureId = "rbxassetid://1028787"
+							local wep = Instance.new("Part",v)wep.Size = Vector3.new(0.2,0.2,0.2)local MH = Instance.new("SpecialMesh",wep)MH.MeshId = "rbxassetid://623102664" wep.Name = "Gun"
+							local W2H = Instance.new("Weld",v["Right Arm"])W2H.Part0 = v["Right Arm"] W2H.Part1 = wep W2H.C0 = CFrame.new(0,-1.5,0) MH.TextureId = "rbxassetid://623102879"
+							local b = Instance.new("ObjectValue",v)b.Name = "Target" b.Value = nil MH.Scale = Vector3.new(0.01,0.01,0.01)W2H.C0 = W2H.C0*CFrame.Angles(0,math.rad(90),math.rad(-90))
+						end
+					end
+					if m2 == 5004 and v.Name == "Human" then
+						local r = math.random(1,2)
+						if r == 1 then v.Name = "Violent"..HumanoidName v.Humanoid.WalkSpeed = 24 
+							local wep = Instance.new("Part",v)wep.Size = Vector3.new(0.2,0.2,0.2)local MH = Instance.new("SpecialMesh",wep)MH.MeshId = "rbxassetid://441561081"
+							local WH = Instance.new("Weld",v["Right Arm"])WH.Part0 = v["Right Arm"] WH.Part1 = wep WH.C0 = CFrame.new(0,-1,-2) MH.TextureId = "rbxassetid://441561146"
+							local b = Instance.new("ObjectValue",v)b.Name = "Target" b.Value = nil MH.Scale = Vector3.new(0.02,0.02,0.02)WH.C0 = WH.C0*CFrame.Angles(math.rad(-90),0,0)
+							v.Head:findFirstChild("face").Texture = "rbxassetid://168024772" wep.Name = "Bat"
+						else v.Name = "Genocide"..HumanoidName v.Humanoid.WalkSpeed = 16
+							v.Head:findFirstChild("face").Texture = "rbxassetid://168024772"
+							local wep = Instance.new("Part",v)wep.Size = Vector3.new(0.2,0.2,0.2)local MH = Instance.new("SpecialMesh",wep)MH.MeshId = "rbxassetid://623102664"
+							local WH = Instance.new("Weld",v["Right Arm"])WH.Part0 = v["Right Arm"] WH.Part1 = wep WH.C0 = CFrame.new(0,-1.5,0) MH.TextureId = "rbxassetid://623102879"
+							local b = Instance.new("ObjectValue",v)b.Name = "Target" b.Value = nil MH.Scale = Vector3.new(0.01,0.01,0.01)WH.C0 = WH.C0*CFrame.Angles(0,math.rad(90),math.rad(-90))
+							local b2 = Instance.new("IntValue",v)b2.Name = "Kills" b2.Value = 0 wep.Name = "Gun"
+						end
+					end
+					if m2 >= 9000 and m2 < 9250 then
+						if v.Name == "Alpha"..HumanoidName then
+							local r2 = math.random(1,25)
+							if r2 == 1 then
+								v:findFirstChild("Humanoid").WalkToPoint = v.HumanoidRootPart.Position+Vector3.new(math.random(-75,75),math.random(-75,75),math.random(-75,75))
+							end
+						elseif v.Name == "Annoying"..HumanoidName then
+							v:findFirstChild("Humanoid").WalkToPoint = v.HumanoidRootPart.Position+Vector3.new(math.random(-25,25),math.random(-25,25),math.random(-25,25))
+						elseif v.Name ~= "Suicidal"..HumanoidName then
+							local r3 = math.random(1,2)
+							if r3 == 1 then
+								v:findFirstChild("Humanoid").WalkToPoint = v.HumanoidRootPart.Position+Vector3.new(math.random(-50,50),math.random(-50,50),math.random(-50,50))	
+							end
+						end
+					end
+					if m2 >= 9900 and m2 < 10000 then
+						local txt = Instance.new("BillboardGui", v)
+						txt.Adornee = v.Head
+						txt.Name = "ChatBubble"
+						txt.Size = UDim2.new(4, 0, 4, 0)
+						txt.StudsOffset = Vector3.new(0, 4, 0)
+						local im = Instance.new("ImageLabel",txt)im.Image = "rbxassetid://332218617"
+						im.Size = UDim2.new(1,0,1,0)im.BackgroundTransparency = 1 im.ImageTransparency = 1
+						if v.Name == "Alpha"..HumanoidName then
+							local r2 = math.random(1,10)
+							if r2 == 1 then
+								local s = SoundCopy:clone() s.Parent = v.HumanoidRootPart
+								s.SoundId = "rbxassetid://"..WisdomId s.Volume = 0.5 s:Play()
+								s.Loaded:connect(function()
+									im.ImageTransparency = 0
+									s.Ended:connect(function()
+										txt:remove()
+									end)
+								end)
+							end
+						elseif v.Name == "Annoying"..HumanoidName then
+							local s = SoundCopy:clone() s.Parent = v.HumanoidRootPart
+							s.SoundId = "rbxassetid://"..MusicId s.Volume = 0.5 s:Play()
+							s.Loaded:connect(function()
+								im.ImageTransparency = 0
+								s.Ended:connect(function()
+									txt:remove()
+								end)
+							end)
+						else
+							local r3 = math.random(1,10)
+							if r3 == 1 then
+								local s = SoundCopy:clone() s.Parent = v.HumanoidRootPart
+								s.SoundId = "rbxassetid://"..MusicId2 s.Volume = 0.5 s:Play()
+								s.Loaded:connect(function()
+									im.ImageTransparency = 0
+									s.Ended:connect(function()
+										txt:remove()
+									end)
+								end)
+							end
+						end
+					end
+					if Population <= MaxPopulation then
+						if m2 <= math.random(0,50-(Population*0.25)) then
+							for i,v2 in pairs (m:children()) do
+								if v2:findFirstChild("HumanoidRootPart")~= nil and v.Name ~= "Builder"..HumanoidName and v.Name ~= "Dark"..HumanoidName and v.Name ~= "Genocide"..HumanoidName and v.Name ~= "Violent"..HumanoidName and v.Name ~= "Police"..HumanoidName and v.Name ~= "Little"..HumanoidName and v ~= nil and v:findFirstChild("HumanoidRootPart")~= nil and (v.Torso.Position-v2.Torso.Position).magnitude <= 10 then
+									Population = Population + 1
+									v.HumanoidRootPart.CFrame = v2.HumanoidRootPart.CFrame 
+									local p2 = v:clone() p2.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
+									-- Установка одежды
+									local shirt = p2:FindFirstChild("Shirt")
+									if shirt then
+										shirt.ShirtTemplate = "rbxassetid://" .. ShirtId
+									end
+
+									local pants = p2:FindFirstChild("Pants")
+									if pants then
+										pants.PantsTemplate = "rbxassetid://" .. PantsId
+									end
+
+									-- Установка здоровья
+									if p2:FindFirstChild("Humanoid") then
+										p2.Humanoid.MaxHealth = 15
+										p2.Humanoid.Health = 15
+									end
+									if p2:findFirstChild("Hat")~= nil then
+										p2.Hat:remove()
+									end
+									p2.Head:findFirstChild("face").Texture = "rbxassetid://"..FaceId2 p2.Name = "Little"..HumanoidName p2.Humanoid.WalkSpeed = 12 
+									local GS = Instance.new("Sound",p2.Head)GS.Volume = 1 GS.SoundId = "rbxassetid://164215701" GS:Play()
+									local b = Instance.new("IntValue",p2)b.Name = "Age" b.Value = 0
+									Resize(1,p2)
+									p2.Parent = m
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+	basicgui.Text = "Deaths: "..Deaths
+	basicgui2.Text = "Population: "..Population
+	basicgui3.Text = "Max Population: "..MaxPopulation
+end
