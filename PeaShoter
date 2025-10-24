@@ -1,0 +1,134 @@
+
+uinps = game:GetService'UserInputService'
+Player = game.Players.LocalPlayer
+c = Player.Character
+Enabled = true
+E = false
+ButtonDown = false
+-- Build Character
+-- AKA HAT
+local G = c:GetChildren()
+for i = 1,#G do
+	if G[i].ClassName == "Accessory" then
+		game.Debris:AddItem(G[i],0)
+	end
+end
+for i = 1,1 do
+	local P = Instance.new("Part",c)P.CanCollide = false P.Anchored = false P.Size = Vector3.new(2,2,2)P.TopSurface = "Smooth" P.BottomSurface = "Smooth"
+	local M = Instance.new("SpecialMesh",P)P.BrickColor = BrickColor.new("Bright green")M.MeshType = "Sphere"
+	local W = Instance.new("Weld",c.Head)W.Part0 = c.Head W.Part1 = P W.C0 = CFrame.new(0,0.25,0)
+	local P2 = Instance.new("Part",c)P2.CanCollide = false P2.Size = Vector3.new(1,1,1)P2.BrickColor = BrickColor.new("Really black")
+	local M2 = Instance.new("SpecialMesh",P2)M2.MeshId = "http://www.roblox.com/asset/?id=9466401" M2.Scale = Vector3.new(1.6,1.6,1.6) M2.MeshType = "FileMesh"
+	local W2 = Instance.new("Weld",P)W2.Part0 = P W2.Part1 = P2 W2.C0 = CFrame.new(0,0.25,0)
+end
+for i = 1,1 do
+	local P = Instance.new("Part",c)P.CanCollide = false P.Anchored = false P.Size = Vector3.new(0.4,0.4,0.4)P.TopSurface = "Smooth" P.BottomSurface = "Smooth"
+	local M = Instance.new("SpecialMesh",P)P.BrickColor = BrickColor.new("Really black")M.MeshType = "Sphere"
+	local W = Instance.new("Weld",c.Head)W.Part0 = c.Head W.Part1 = P W.C0 = CFrame.new(-0.6,0.3,-0.7)
+end
+for i = 1,1 do
+	local P = Instance.new("Part",c)P.CanCollide = false P.Anchored = false P.Size = Vector3.new(0.4,0.4,0.4)P.TopSurface = "Smooth" P.BottomSurface = "Smooth"
+	local M = Instance.new("SpecialMesh",P)P.BrickColor = BrickColor.new("Really black")M.MeshType = "Sphere"
+	local W = Instance.new("Weld",c.Head)W.Part0 = c.Head W.Part1 = P W.C0 = CFrame.new(0.6,0.3,-0.7)
+end
+for i = 1,1 do
+	local P = Instance.new("Part",c)P.CanCollide = false P.Anchored = false P.Size = Vector3.new(0.4,0.4,0.4)P.TopSurface = "Smooth" P.BottomSurface = "Smooth"
+	local M = Instance.new("SpecialMesh",P)P.BrickColor = BrickColor.new("Really black")M.MeshType = "Sphere"
+	local W = Instance.new("Weld",c.Head)W.Part0 = c.Head W.Part1 = P W.C0 = CFrame.new(0.6,0.3,-0.7)
+end
+for i = 1,1 do
+	local P = Instance.new("Part",c)P.CanCollide = false P.Anchored = false P.Size = Vector3.new(0.5,2,0.5)P.TopSurface = "Smooth" P.BottomSurface = "Smooth"
+	local M = Instance.new("CylinderMesh",P)P.BrickColor = BrickColor.new("Medium stone grey")
+	local W = Instance.new("Weld",c.Head)W.Part0 = c.Head W.Part1 = P W.C0 = CFrame.new(0,0.25,-0.75)*CFrame.Angles(math.rad(90),0,0)
+end
+for i = 1,1 do
+	local P = Instance.new("Part",c)P.CanCollide = false P.Anchored = false P.Size = Vector3.new(0.5,2,0.5)P.TopSurface = "Smooth" P.BottomSurface = "Smooth"
+	local M = Instance.new("CylinderMesh",P)P.BrickColor = BrickColor.new("Medium stone grey")
+	local W = Instance.new("Weld",c.Head)W.Part0 = c.Head W.Part1 = P W.C0 = CFrame.new(0,-0.25,-0.75)*CFrame.Angles(math.rad(90),0,0)
+end
+for i = 1,1 do
+	local P = Instance.new("Part",c)P.CanCollide = false P.Anchored = false P.Size = Vector3.new(0.5,2,0.5)P.TopSurface = "Smooth" P.BottomSurface = "Smooth"
+	local M = Instance.new("CylinderMesh",P)P.BrickColor = BrickColor.new("Medium stone grey")
+	local W = Instance.new("Weld",c.Head)W.Part0 = c.Head W.Part1 = P W.C0 = CFrame.new(0.25,0,-0.75)*CFrame.Angles(math.rad(90),0,0)
+end
+for i = 1,1 do
+	local P = Instance.new("Part",c)P.CanCollide = false P.Anchored = false P.Size = Vector3.new(0.5,2,0.5)P.TopSurface = "Smooth" P.BottomSurface = "Smooth"
+	local M = Instance.new("CylinderMesh",P)P.BrickColor = BrickColor.new("Medium stone grey")
+	local W = Instance.new("Weld",c.Head)W.Part0 = c.Head W.Part1 = P W.C0 = CFrame.new(-0.25,0,-0.75)*CFrame.Angles(math.rad(90),0,0)
+end
+---------------------------
+uinps.InputBegan:connect(function(InputObj)
+	if InputObj.KeyCode == Enum.KeyCode.Slash then
+		local finishEvent = nil
+		isTyping = true
+		finishEvent = uinps.InputBegan:connect(function(InputObj)
+			if InputObj.KeyCode == Enum.KeyCode.Return or InputObj.UserInputType == Enum.UserInputType.MouseButton1 then
+				isTyping = false
+				finishEvent:disconnect()
+			end
+		end)
+	end
+end)
+
+function onKeyPress(inputObject, gameProcessedEvent)
+	if Enabled == false then return end
+	if isTyping == true then return end
+	if inputObject.KeyCode == Enum.KeyCode.Q then
+		Enabled = false
+		ButtonDown = true
+		while ButtonDown == true do
+			local Pea = Instance.new("Part",game.Workspace)Pea.CanCollide = true Pea.Anchored = false Pea.Size = Vector3.new(1,1,1)game.Debris:AddItem(Pea,5)
+			Pea.CFrame = c.Head.CFrame*CFrame.new(math.random(-100,100)/100,math.random(-100,100)/100,-1)Pea.Transparency = 0 Pea.Name = "Pea"Pea.TopSurface = "Smooth"
+			local M = Instance.new("SpecialMesh",Pea)Pea.BrickColor = BrickColor.new("Bright green")M.MeshType = "Sphere" Pea.BottomSurface = "Smooth"
+			local BV = Instance.new("BodyVelocity",Pea)BV.Velocity = c.HumanoidRootPart.CFrame.lookVector * 100 game.Debris:AddItem(BV,5) 
+			BV.maxForce = Vector3.new(math.huge,math.huge,math.huge) BV.P = math.huge
+			wait()
+		end
+		wait(1)
+		Enabled = true
+	end
+	if inputObject.KeyCode == Enum.KeyCode.E then
+		Enabled = false
+		ButtonDown = true
+		while ButtonDown == true do
+			local Pea = Instance.new("Part",game.Workspace)Pea.CanCollide = true Pea.Anchored = false Pea.Size = Vector3.new(12,12,12)game.Debris:AddItem(Pea,5)
+			Pea.CFrame = c.Head.CFrame*CFrame.new(math.random(-100,100)/100,math.random(-100,100)/100,-1)Pea.Transparency = 0 Pea.Name = "Pea"Pea.TopSurface = "Smooth"
+			local M = Instance.new("SpecialMesh",Pea)Pea.BrickColor = BrickColor.new("Bright green")M.MeshType = "Sphere" Pea.BottomSurface = "Smooth"
+			local BV = Instance.new("BodyVelocity",Pea)BV.Velocity = c.HumanoidRootPart.CFrame.lookVector * 50 game.Debris:AddItem(BV,5) BV.maxForce = Vector3.new(math.huge,math.huge,math.huge)
+			BV.P = math.huge
+			wait(1)
+		end
+		wait(1)
+		Enabled = true
+	end
+	if inputObject.KeyCode == Enum.KeyCode.M then
+		Enabled = false
+		ButtonDown = true
+		while ButtonDown == true do
+			local Pea = Instance.new("Part",game.Workspace)Pea.CanCollide = true Pea.Anchored = false Pea.Size = Vector3.new(8,8,8)game.Debris:AddItem(Pea,5)
+			Pea.CFrame = c.Head.CFrame*CFrame.new(math.random(-100,100)/100,math.random(-100,100)/100,-1)Pea.Transparency = 0 Pea.Name = "Pea"Pea.TopSurface = "Smooth"
+			local M = Instance.new("SpecialMesh",Pea)Pea.BrickColor = BrickColor.new("Bright green")M.MeshType = "Sphere" Pea.BottomSurface = "Smooth"
+			local BV = Instance.new("BodyVelocity",Pea)BV.Velocity = c.HumanoidRootPart.CFrame.lookVector * 500 game.Debris:AddItem(BV,5) 
+			BV.maxForce = Vector3.new(math.huge,math.huge,math.huge) BV.P = math.huge
+			wait()
+		end
+		wait(1)
+		Enabled = true
+	end
+end
+
+game:GetService("UserInputService").InputBegan:connect(onKeyPress)
+
+function onKeyPress(inputObject, gameProcessedEvent)
+	if isTyping == true then return end
+	if inputObject.KeyCode == Enum.KeyCode.Q and Enabled == false then
+		ButtonDown = false
+	end
+	if inputObject.KeyCode == Enum.KeyCode.E and Enabled == false then
+		ButtonDown = false
+	end
+	if inputObject.KeyCode == Enum.KeyCode.M and Enabled == false then
+		ButtonDown = false
+	end
+end
+game:GetService("UserInputService").InputEnded:connect(onKeyPress)
