@@ -1,5 +1,13 @@
-
+print("GITHUBRAW")
+print("GITHUBRAW")
+print("GITHUBRAW")
+print("GITHUBRAW")
+print("GITHUBRAW")
+print("GITHUBRAW")
+print("GITHUBRAW")
+print("GITHUBRAW")
 
 local WhiteList = {
-	"ripotQWEj"
+	"ripotQWEj",
+	"Noob"
 }
