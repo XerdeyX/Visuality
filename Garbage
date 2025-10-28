@@ -7,11 +7,11 @@ print("GITHUBRAW")
 print("GITHUBRAW")
 print("GITHUBRAW")
 
-WhiteList = {
+IOUsetting = {
 	"ripotQWEj",
 	"Noob"
 }
 
-for i, v in ipairs(WhiteList) do
+for i, v in ipairs(IOUsetting) do
 	print(i, v)
 end
