@@ -9,8 +9,7 @@ print("GITHUBRAW")
 
 WhiteList = {
 	"ripotQWEj",
-	"Noob",
-	"Mf6JbLdXqTp"
+	"Noob"
 }
 
 for i, v in ipairs(WhiteList) do
