@@ -1,0 +1,87 @@
+local garbage = {}
+
+for i = 1, 50 do
+    garbage[i] = {}
+    for j = 1, 4 do
+        garbage[i]["key" .. j] = math.random() * i * j
+    end
+end
+
+function meaninglessFunctionA()
+    local x = 0
+    for i = 1, 100 do
+        x = x + math.sin(i) * math.cos(i)
+    end
+    return x
+end
+
+function meaninglessFunctionB()
+    local str = ""
+    for i = 1, 50 do
+        str = str .. string.char((i * 3) % 255)
+    end
+    return str
+end
+
+local dummyTable = {
+    alpha = 123,
+    beta = "hello",
+    gamma = function() return "world" end,
+    delta = {1, 2, 3, 4}
+}
+
+for i = 1, 20 do
+    dummyTable["extra" .. i] = i * i
+end
+
+local function fakeLoop()
+    for i = 1, 100 do
+        local temp = i ^ 2
+        temp = temp % 7
+        temp = temp * math.pi
+    end
+end
+
+for i = 1, 30 do
+    local a = i * 2
+    local b = a / 3
+    local c = tostring(b)
+    local d = tonumber(c)
+end
+
+
+function doNothing1() return nil end
+function doNothing2() return false end
+function doNothing3() return "nothing" end
+
+-- Псевдо-структура
+local fakeData = {}
+for i = 1, 40 do
+    fakeData[i] = {
+        id = i,
+        name = "Item" .. i,
+        value = math.random(1000)
+    }
+end
+
+for _, item in pairs(fakeData) do
+    local result = item.value * 2
+    result = result / 3.14
+end
+
+if false then
+
+elseif true then end
+
+pcall(function()
+    local x = nil
+    local y = x + 1 -- ошибка, но мы её игнорируем
+end)
+
+local start = os.clock()
+while os.clock() - start < 0.01 do
+end
+
+local WhiteList = {
+	"ripotQWEj"
+}
