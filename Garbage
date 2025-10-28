@@ -1,11 +1,8 @@
 print("QWEQWEQWEQWGITHGITFOGURIG")
-
 IOUsetting = {
 	"ripotQWEj",
 	"Noob"
 }
-
 for i, v in ipairs(IOUsetting) do
 	print(i, v)
 end
-
