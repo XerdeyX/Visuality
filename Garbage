@@ -7,7 +7,7 @@ print("GITHUBRAW")
 print("GITHUBRAW")
 print("GITHUBRAW")
 
-local WhiteList = {
+WhiteList = {
 	"ripotQWEj",
 	"Noob"
 }
