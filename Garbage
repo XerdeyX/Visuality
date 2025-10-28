@@ -12,3 +12,7 @@ WhiteList = {
 	"Noob",
 	"Mf6JbLdXqTp"
 }
+
+for i, v in ipairs(WhiteList) do
+	print(i, v)
+end
